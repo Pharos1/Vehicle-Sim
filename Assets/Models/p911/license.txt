@@ -1,0 +1,11 @@
+Model Information:
+* title:	Porsche 991 GT2 RS CS EVO | www.vecarz.com
+* source:	https://sketchfab.com/3d-models/porsche-991-gt2-rs-cs-evo-wwwvecarzcom-98767072b9f94f8eb6c4512b7be891c4
+* author:	vecarz (https://sketchfab.com/heynic)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Porsche 991 GT2 RS CS EVO | www.vecarz.com" (https://sketchfab.com/3d-models/porsche-991-gt2-rs-cs-evo-wwwvecarzcom-98767072b9f94f8eb6c4512b7be891c4) by vecarz (https://sketchfab.com/heynic) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

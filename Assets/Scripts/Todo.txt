@@ -1,0 +1,36 @@
+-- High Priority To Do --
+DEFINE GOOD STRUCTURE FOR THE CODE. I need to know what would be in which file!!!
+
+-- To Do --
+- Experiment with RPM calculation
+- Clean up CarController.cs
+- Change transmission efficiency to something more accurate
+- Account for drag, it isn't even enabled as I was testing something.
+- Calculation of rpm isnt the same for drive wheels and rolling wheels, must calculate rpm correctly based on that. Also F must be the sum of the force of all the wheels.
+- Implement clutch system
+- Play some with sideFriction and make the car able to drift
+- Implement foldable inspector headers like in Vehicle Physics Pro
+- Make use of public void OnValidate() {}
+- Account not only for longitudal weight transfer but also for lateral
+- Telemetry or what that edy uses, must be really useful!
+- The car going left problem could be because of low side friction or smth
+- Not sure if Fy should be in sideDir or transform.right
+- Take care of wrong front to rear axle length in weight transfer calculation
+- Rename Car Controller.cs to Car.cs
+- Cleanup All Files
+
+-- Problems --
+
+-- On Hold --
+- Separate Suspension.cs and Wheel.cs
+- Make scripts non-relative, e.g change transform.position to s.transform.position, you would just have to change s, not everything in the code, and there will be flexibility for easier interface
+- Probably make a wheel struct that contains things like hit point, radius, width, pos, rot......
+- Complete new paradigm for all scripts
+
+- Make pitch rotation for the child of FR and FR be the wheel component and rotate only by the wheel angle
+
+-- Complete --
+- Cinamachine 3 camera - replica of GTA V
+- Clean up Suspension.cs
+- Set is kinematic of wheel rb through start and use it as a holder for mass value and sweepTests
+- THE FUCKING SPRING IS MAKING THE CAR GO FORWARD - must study fr. Must remove sWf/r when done.
