@@ -11,7 +11,7 @@ public class Suspension : MonoBehaviour {
 	private Car cc;
 
 	[Header("Suspension")]
-	[HideInInspector] public bool showSuspensionList;
+	[HideInInspector] public static bool showSuspensionList;
 	[HideInInspector] public float Ck = 0.2f;
 	[HideInInspector] public float Cd = 0.20f;
 
@@ -80,7 +80,7 @@ public class Suspension : MonoBehaviour {
 		//Gizmos.DrawWireSphere(transform.position + transform.up * -springLength, radius);
 	}
 	private void suspension() { //Based on h4tt3n's math https://www.gamedev.net/tutorials/programming/math-and-physics/towards-a-simpler-stiffer-and-more-stable-spring-r3227/
-        if (!w.grounded) return;
+        if (!w.isGrounded) return;
 
         float m1 = rb.mass / 4f;
 		float m2 = w.mass;
