@@ -4,19 +4,19 @@ using UnityEditor;
 using UnityEngine;
 
 public class Suspension : MonoBehaviour {
-	[Header("Components")]
 	[SerializeField] private Transform car;
 	[SerializeField] public Wheel w;
+
 	private Rigidbody rb;
 	private CarController cc;
 
 	[Header("Suspension")]
 	[HideInInspector] public bool showSuspensionList;
-	[HideInInspector] [Range(0, 1f)] public float Ck = 0.2f;
-	[HideInInspector] [Range(0, 1f)] public float Cd = 0.20f;
+	[HideInInspector] public float Ck = 0.2f;
+	[HideInInspector] public float Cd = 0.20f;
 
-	[SerializeField] public float restLength;
-	[SerializeField] private float springTravel;
+	[HideInInspector] public float restLength;
+	[HideInInspector] public float springTravel;
 
 	[ReadOnly] private float minLength;
 	[ReadOnly] [HideInInspector] public float maxLength;
