@@ -6,9 +6,6 @@ public class CinemachineCameraManager : MonoBehaviour {
     private CinemachineOrbitalFollow cof;
     private CarController cc;
 
-    [SerializeField] private float reverseCameraTime = 10;
-    private float t = 0;
-
     private void Start() {
         cineCam = GetComponent<CinemachineCamera>();
         cof = GetComponent<CinemachineOrbitalFollow>();
