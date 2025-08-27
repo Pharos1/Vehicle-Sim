@@ -55,14 +55,15 @@ public class Wheel : MonoBehaviour {
 
 	//To be organized
 	float rotationPitch = 0;
-	public Vector3 totalForce;
 	[HideInInspector] public Vector3 wheelVelocityLS; //Local Space
-	private float Fy;
 	public float sideFriction = 30;
 
-	[HideInInspector] public Vector3 vLong;
+	[HideInInspector] public Vector3 vLong; //Longitudinal velocity
 
-	private void Start() {
+    [HideInInspector] public Vector2 F; //Lateral(x) and Longitudinal(y) forces
+    [HideInInspector] public Vector2 V; //Lateral(x) and Longitudinal(y) velocities
+
+    private void Start() {
 		rb = car.GetComponent<Rigidbody>();
 		cc = car.GetComponent<CarController>();
 
@@ -77,13 +78,16 @@ public class Wheel : MonoBehaviour {
 			rotationPitch += Mathf.Rad2Deg * wheelOmega * Time.deltaTime;
 			rotationPitch = Mathf.Repeat(rotationPitch, 360f);
 
-
 			transform.SetPositionAndRotation(s.transform.position - s.transform.up * s.springLength, s.transform.rotation * Quaternion.Euler(rotationPitch, 0, 0));
 		}
 	}
 	private void FixedUpdate() {
-		vLong = Vector3.Dot(tractionDir, rb.velocity) * tractionDir;
-	}
+        vLong = Vector3.Dot(tractionDir, rb.velocity) * tractionDir;
+
+		Vector3 vLongLS = s.transform.InverseTransformVector(vLong);
+        V.x = vLongLS.x;
+        V.y = vLongLS.z;
+    }
 	public void steer() {
 		wheelAngle = Mathf.Lerp(wheelAngle, steerAngle, steerTime * Time.deltaTime);
 		s.transform.localRotation = Quaternion.Euler(Vector3.up * wheelAngle);
@@ -155,8 +159,8 @@ public class Wheel : MonoBehaviour {
 		}
 	}
 	public void calcAndApplyForces() {
-		totalForce = Vector3.zero;
-
+		F = Vector2.zero;
+		
 		tractionDir = Vector3.Cross(hit.normal, -s.transform.right).normalized;//Quaternion.AngleAxis(90, transform.right) * contact.Value.normal;
 		sideDir = Vector3.Cross(hit.normal, s.transform.forward).normalized;
 
@@ -165,13 +169,9 @@ public class Wheel : MonoBehaviour {
 
 		//-Side friction or smth
 		if (grounded) {
-			//wheelVelocityLS = transform.InverseTransformDirection(rb.GetPointVelocity(hit.point));
+			wheelVelocityLS = s.transform.InverseTransformDirection(rb.GetPointVelocity(hit.point));
 
-			//Fy = wheelVelocityLS.x * sideFriction;
-			Fy = Vector3.Dot(sideDir, rb.GetPointVelocity(hit.point)) * 90f * sideFriction; //To degrees for correct representation of Slip Angle
-
-
-			totalForce += Fy * -sideDir;
+            F.x += -Vector3.Dot(transform.right, rb.GetPointVelocity(hit.point)) * 90f * sideFriction;
 		}
 		else {
 			wheelVelocityLS = Vector3.zero;
@@ -179,34 +179,31 @@ public class Wheel : MonoBehaviour {
 		//Applying Forces
 		//-Drive Force
 		if (isWheelPowering && grounded) {
-			Vector3 Fdrive = tractionDir * cc.Tdrive / radius;
+			float Fdrive = cc.Tdrive / radius;
 
-			totalForce += Fdrive;
+			F.y += Fdrive;
 		}
 
 		//-Rolling Resistance
 		if (grounded) {
 			float normalForce = s.Ws * -Physics.gravity.y;
-			Vector3 Frr = Crr * normalForce * -vLong.normalized;
+			float Frr = Crr * normalForce * -Mathf.Sign(V.y);
 
-			totalForce += Frr;
+			F.y += Frr;
 		}
 
 		//-Breaking Force
 		if (isWheelBreaking && grounded && Input.GetKey(KeyCode.Space)) { //} && !ApproximatelyEquals(0, velInTractionDir.magnitude, 0.01f)) {
-			Vector3 Fbraking = -vLong.normalized * Cbraking;
+			float Fbraking = -Mathf.Sign(V.y) * Cbraking;
 
 			float velIncrease = Cbraking * Time.fixedDeltaTime / rb.mass;
 
 			if ((vLong.magnitude - velIncrease) < 0.01f) {
-				Fbraking = Vector3.zero;
+				Fbraking = 0;
 			}
-
-			totalForce += Fbraking;
+			F.y += Fbraking;
 		}
 
-		rb.AddForceAtPosition(totalForce, hit.point);
-		//Debug.Log(rb.GetAccumulatedForce());
-		//Debug.Log(rb.GetAccumulatedTorque());
+		rb.AddForceAtPosition(s.transform.TransformVector(new Vector3(F.x, 0, F.y)), hit.point);
 	}
 }

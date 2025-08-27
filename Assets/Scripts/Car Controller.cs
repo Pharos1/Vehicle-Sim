@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Unity.Cinemachine;
 using UnityEditor;
 using UnityEngine;
@@ -22,7 +23,7 @@ public class CarController : MonoBehaviour {
 
 
     [Header("Wheels")]
-    [SerializeField] private Wheel[] wheels;
+    [SerializeField] public Wheel[] wheels;
     private Suspension[] suspensions;
 
     [HideInInspector] public int numOfDriveWheels;
@@ -52,8 +53,11 @@ public class CarController : MonoBehaviour {
     private float ackermannAngleLeft;
     private float ackermannAngleRight;
     
+    //To be ordered
     float v0 = 0;
 
+    [HideInInspector] public float rpm;
+    [HideInInspector] public Vector2 V;
 
     [SerializeField] private bool debugCG = true;
 
@@ -80,9 +84,16 @@ public class CarController : MonoBehaviour {
     }
     void Update() {
         input();
-        steer(); 
+        steer();
     }
     void FixedUpdate() {
+        Vector3 vLong = Vector3.Dot(transform.forward, rb.velocity) * transform.forward;
+
+        Vector3 vLongLS = transform.InverseTransformVector(vLong);
+        V.x = vLongLS.x;
+        V.y = vLongLS.z;
+
+        //TODO: clear this some more, like everything is inside fixedUpdate, also this has to be redone, things like velinWheelDir are to be changed
         //Prerequisite variables
         //-Gears
         float gearRatio = gearRatios[curGear];
@@ -93,7 +104,7 @@ public class CarController : MonoBehaviour {
 
         //Calculating RPM
         float velInWheelDir = Vector3.Dot(rb.velocity, wheels[0].tractionDir);
-        float rpm = velInWheelDir / wheels[0].radius; //TODO: here we are assuming every wheels has the same radius
+        rpm = velInWheelDir / wheels[0].radius; //TODO: here we are assuming every wheels has the same radius
         rpm = rpm * gearRatio * diffRatio * (60 / (2 * Mathf.PI)); /*To Convert from rad/s to rpm/min */
         rpm = Mathf.Abs(rpm);
 
@@ -116,8 +127,7 @@ public class CarController : MonoBehaviour {
         //RPM test
         float F = 0f;
         foreach (Wheel w in wheels) {
-            Vector3 totalForce = w.totalForce + Fdrag / 4f;
-            F += Vector3.Dot(w.tractionDir, totalForce.normalized) * totalForce.magnitude;
+            F += w.F.x;
         }
 
         float a = F / kerbWeight;
