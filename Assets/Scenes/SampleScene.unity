@@ -1085,7 +1085,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 696481732}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19647686, y: -0, z: -0, w: 0.9805085}
+  m_LocalRotation: {x: 0.19647686, y: 0, z: 0, w: 0.9805085}
   m_LocalPosition: {x: 0, y: 1.5928233, z: -3.8148677}
   m_LocalScale: {x: 0.48356998, y: 0.48356986, z: 0.48356986}
   m_ConstrainProportionsScale: 0
@@ -1747,8 +1747,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   w: {fileID: 7833798221840451437}
+  showSuspensionList: 0
   Ck: 0.2
-  Cd: 0.1
+  Cd: 0.2
   restLength: 0.2
   springTravel: 0.1
   maxLength: 0
@@ -1837,8 +1838,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   w: {fileID: 1435677290003199911}
+  showSuspensionList: 0
   Ck: 0.2
-  Cd: 0.1
+  Cd: 0.2
   restLength: 0.2
   springTravel: 0.1
   maxLength: 0
@@ -1999,8 +2001,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   w: {fileID: 8502045968555562120}
+  showSuspensionList: 0
   Ck: 0.2
-  Cd: 0.1
+  Cd: 0.2
   restLength: 0.2
   springTravel: 0.1
   maxLength: 0
@@ -2759,8 +2762,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   w: {fileID: 5755436159589144216}
+  showSuspensionList: 0
   Ck: 0.2
-  Cd: 0.1
+  Cd: 0.2
   restLength: 0.2
   springTravel: 0.1
   maxLength: 0
@@ -2955,7 +2959,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1903339730}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19647686, y: -0, z: -0, w: 0.9805085}
+  m_LocalRotation: {x: 0.19647686, y: 0, z: 0, w: 0.9805085}
   m_LocalPosition: {x: 0, y: 1.5928233, z: -3.8148677}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3057,16 +3061,16 @@ MonoBehaviour:
       Radius: 2.5
       Height: 0.1
     SplineCurvature: 0.5
-  RecenteringTarget: 2
+  RecenteringTarget: 0
   HorizontalAxis:
     Value: 0
-    Center: -0
+    Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
     Recentering:
       Enabled: 1
       Wait: 0.7
-      Time: 1
+      Time: 0.7
     Restrictions: 0
   VerticalAxis:
     Value: 17.5
@@ -3143,6 +3147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2190ce009a804ba4295a06816348023b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reverseCameraTime: 10
 --- !u!1 &1903458369
 GameObject:
   m_ObjectHideFlags: 0
