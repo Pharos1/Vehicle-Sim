@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class CarController : MonoBehaviour {
+public class Car : MonoBehaviour {
     private Rigidbody rb;
 
     [Header("Car Physics")]

@@ -8,7 +8,7 @@ public class Suspension : MonoBehaviour {
 	[SerializeField] public Wheel w;
 
 	private Rigidbody rb;
-	private CarController cc;
+	private Car cc;
 
 	[Header("Suspension")]
 	[HideInInspector] public bool showSuspensionList;
@@ -39,7 +39,7 @@ public class Suspension : MonoBehaviour {
         w.car = car;
 
         rb = car.GetComponent<Rigidbody>();
-		cc = car.GetComponent<CarController>();
+		cc = car.GetComponent<Car>();
 
 		springLength = restLength;
 

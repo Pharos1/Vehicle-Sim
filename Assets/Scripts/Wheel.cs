@@ -8,7 +8,7 @@ public class Wheel : MonoBehaviour {
 	public Transform car;
 	public Suspension s;
 	private Rigidbody rb;
-	private CarController cc;
+	private Car cc;
 
 	public enum WheelType {
 		FL,
@@ -65,7 +65,7 @@ public class Wheel : MonoBehaviour {
 
     private void Start() {
 		rb = car.GetComponent<Rigidbody>();
-		cc = car.GetComponent<CarController>();
+		cc = car.GetComponent<Car>();
 
 		hit.point = s.transform.position - s.transform.up * (s.maxLength + radius);
 

@@ -11,7 +11,7 @@ public class Telemetry : MonoBehaviour {
     [SerializeField] private FontAsset fontass;
 
     private Rigidbody rb;
-    private CarController cc;
+    private Car cc;
     [SerializeField] private bool pointFiltering; //Gives pixelated look (Due to some bug in Unity's code, forced point filtering for fonts in Unity 6 doesn't work and doesn't give errors)
 
     [SerializeField] private KeyCode hotkey = KeyCode.F1;
@@ -21,7 +21,7 @@ public class Telemetry : MonoBehaviour {
 
     private void Start() {
         rb = car.GetComponent<Rigidbody>();
-        cc = car.GetComponent<CarController>();
+        cc = car.GetComponent<Car>();
     }
 
     private void Update() {

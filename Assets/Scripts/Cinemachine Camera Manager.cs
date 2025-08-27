@@ -4,12 +4,12 @@ using UnityEngine;
 public class CinemachineCameraManager : MonoBehaviour {
     private CinemachineCamera cineCam;
     private CinemachineOrbitalFollow cof;
-    private CarController cc;
+    private Car cc;
 
     private void Start() {
         cineCam = GetComponent<CinemachineCamera>();
         cof = GetComponent<CinemachineOrbitalFollow>();
-        cc = cineCam.LookAt.GetComponent<CarController>();
+        cc = cineCam.LookAt.GetComponent<Car>();
     }
     private void Update() {
         //Cinemachine camera cursor
