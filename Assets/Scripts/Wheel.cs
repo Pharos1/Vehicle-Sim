@@ -17,51 +17,56 @@ public class Wheel : MonoBehaviour {
 		RR
 	}
 
-	[Header("Wheel Parameters")]
-	[SerializeField] private bool debugSize = true;
-	[SerializeField] public float radius;
-	[SerializeField] public float width; private float halfWidth => width / 2;
+    [Header("Steering")]
+    [HideInInspector] public float steerTime = 8f;
 
-	[Header("Wheel Properties")]
-	[SerializeField] public WheelType type;
+    [HideInInspector] public float steerAngle;
+    [HideInInspector] private float wheelAngle;
 
-	[SerializeField] public bool isWheelPowering = true;
-	[SerializeField] public bool isWheelBreaking = true;
+    [Header("Wheel Dimensions")]
+    [HideInInspector] public float radius;
+	[HideInInspector] public float width; private float halfWidth => width / 2;
 
-	[SerializeField] private float Cbraking = 2000f; //Breaking Coefficent. Fine tune if needed.
+	[Header("Wheel Config")]
+    [HideInInspector] public static bool showConfigList = false;
+    [HideInInspector] public WheelType type;
+
+    [HideInInspector] public bool isWheelPowering = true;
+	[HideInInspector] public bool isWheelBraking = true;
+
+    [HideInInspector] public float Cbraking = 2000f; //Breaking Coefficent. Fine tune if needed.
 
 	[Header("Collision")]
-	[SerializeField] private bool debugRays;
-	[SerializeField] private int layers = 10;
-	[SerializeField] private int rays = 10;
-	[SerializeField][Tooltip("Gives better coverage in higher number of rays and layers.")] private bool useBetterCoverage = true; //For better coverage
+    [HideInInspector] public static bool showCollisionList = false;
+    [HideInInspector] public int layers = 10;
+	[HideInInspector] public int rays = 10;
+    [HideInInspector] public bool useBetterCoverage = true; //For better coverage
 
 	[HideInInspector] public RaycastHit hit;
 	[HideInInspector] public float centerHitDist;
-	[SerializeField][ReadOnly] public bool grounded;
-
-	[Header("Steering")]
-	[SerializeField] public float steerTime = 8f;
-
-	[HideInInspector] public float steerAngle;
-	private float wheelAngle;
+    [HideInInspector] public bool isGrounded;
 
 	[Header("Wheel Physics")]
-	[SerializeField] public float mass = 10; //KG
-	[SerializeField] private float Crr = 0.012f;
+    [HideInInspector] public static bool showPhysicsList = false;
+    [HideInInspector] public float mass = 10; //KG
+	[HideInInspector] public float Crr = 0.012f;
+    [HideInInspector] public float Cs = 30; //Side friction coeff
 
-	[HideInInspector] public Vector3 tractionDir;
+    [HideInInspector] public Vector3 tractionDir;
 	[HideInInspector] public Vector3 sideDir;
 
-	//To be organized
-	float rotationPitch = 0;
-	[HideInInspector] public Vector3 wheelVelocityLS; //Local Space
-	public float sideFriction = 30;
-
-	[HideInInspector] public Vector3 vLong; //Longitudinal velocity
+    [HideInInspector] public Vector3 vLong; //Longitudinal velocity
 
     [HideInInspector] public Vector2 F; //Lateral(x) and Longitudinal(y) forces
     [HideInInspector] public Vector2 V; //Lateral(x) and Longitudinal(y) velocities
+
+    //Gizmos
+    [HideInInspector] public static bool showGizmosList = false;
+    [HideInInspector] public bool debugSize = true;
+    [HideInInspector] public bool debugRays;
+
+    //To be organized
+    float rotationPitch = 0;
 
     private void Start() {
 		rb = car.GetComponent<Rigidbody>();
@@ -110,7 +115,7 @@ public class Wheel : MonoBehaviour {
 		hit.normal = Vector3.zero;//transform.up;
 
 		centerHitDist = radius;
-		grounded = false;
+		isGrounded = false;
 
 		for (int i = 0; i < layers; i++) {
 			for (int j = 1; j < rays + 1; j++) { //The wonky + 1s and + 2s for the rays count is because when using, say, 10 rays, 2 of them are to the most left and right and their length is 0, so what I do here is ignore the side ones and just use the middle 10 rays
@@ -152,7 +157,7 @@ public class Wheel : MonoBehaviour {
 					if (d1 < d2) {
 						hit = tempHit;
 						centerHitDist = length;
-						grounded = true;
+						isGrounded = true;
 					}
 				}
 			}
@@ -168,24 +173,20 @@ public class Wheel : MonoBehaviour {
 		Debug.DrawRay(hit.point, sideDir, Color.magenta);
 
 		//-Side friction or smth
-		if (grounded) {
-			wheelVelocityLS = s.transform.InverseTransformDirection(rb.GetPointVelocity(hit.point));
+		if (isGrounded) {
+            F.x += -Vector3.Dot(transform.right, rb.GetPointVelocity(hit.point)) * 90f * Cs;
+		}
 
-            F.x += -Vector3.Dot(transform.right, rb.GetPointVelocity(hit.point)) * 90f * sideFriction;
-		}
-		else {
-			wheelVelocityLS = Vector3.zero;
-		}
 		//Applying Forces
 		//-Drive Force
-		if (isWheelPowering && grounded) {
+		if (isWheelPowering && isGrounded) {
 			float Fdrive = cc.Tdrive / radius;
 
 			F.y += Fdrive;
 		}
 
 		//-Rolling Resistance
-		if (grounded) {
+		if (isGrounded) {
 			float normalForce = s.Ws * -Physics.gravity.y;
 			float Frr = Crr * normalForce * -Mathf.Sign(V.y);
 
@@ -193,7 +194,7 @@ public class Wheel : MonoBehaviour {
 		}
 
 		//-Breaking Force
-		if (isWheelBreaking && grounded && Input.GetKey(KeyCode.Space)) { //} && !ApproximatelyEquals(0, velInTractionDir.magnitude, 0.01f)) {
+		if (isWheelBraking && isGrounded && Input.GetKey(KeyCode.Space)) { //} && !ApproximatelyEquals(0, velInTractionDir.magnitude, 0.01f)) {
 			float Fbraking = -Mathf.Sign(V.y) * Cbraking;
 
 			float velIncrease = Cbraking * Time.fixedDeltaTime / rb.mass;
