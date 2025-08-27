@@ -1,10 +1,12 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour {
-    [SerializeField] private Camera cam;
-    [SerializeField] private CinemachineCamera cineCam;
+public class CinemachineCameraManager : MonoBehaviour {
+    private CinemachineCamera cineCam;
 
+    private void Start() {
+        cineCam = GetComponent<CinemachineCamera>();
+    }
     private void Update() {
         //Cinemachine camera cursor
         if (Input.GetMouseButton(1)) {
