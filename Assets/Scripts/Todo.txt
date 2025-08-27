@@ -18,6 +18,8 @@ DEFINE GOOD STRUCTURE FOR THE CODE. I need to know what would be in which file!!
 - Take care of wrong front to rear axle length in weight transfer calculation
 - Rename Car Controller.cs to Car.cs
 - Cleanup All Files
+- Move speeds, and all to Car.cs
+- Have to find out what is the problem with car going one way, it's evident that Fy for left drive wheel is lower
 
 -- Problems --
 
