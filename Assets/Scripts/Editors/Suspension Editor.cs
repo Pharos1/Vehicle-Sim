@@ -1,37 +1,42 @@
 using UnityEditor;
 
 [CustomEditor(typeof(Suspension))]
+[CanEditMultipleObjects]
 public class SuspensionEditor : Editor {
 	Suspension s;
 
-	public override void OnInspectorGUI() {
+    SerializedObject so => serializedObject;
+
+    public override void OnInspectorGUI() {
 		base.OnInspectorGUI();
 
 		EditorGUILayout.Space(10);
 
-		s.showSuspensionList = EditorGUILayout.Foldout(s.showSuspensionList, "Suspension Config");
-		if (s.showSuspensionList) {
+		Suspension.showSuspensionList = EditorGUILayout.Foldout(Suspension.showSuspensionList, "Suspension Config");
+		if (Suspension.showSuspensionList) {
 			//Ck
 			EditorGUILayout.BeginHorizontal();
-			s.Ck = EditorGUILayout.Slider("Spring Stiffness", s.Ck, 0, 1);
+            so.FindProperty("Ck").floatValue = EditorGUILayout.Slider("Spring Stiffness", s.Ck, 0, 1);
 			EditorGUILayout.EndHorizontal();
 
 			//Cd
 			EditorGUILayout.BeginHorizontal();
-			s.Cd = EditorGUILayout.Slider("Damper Stiffness", s.Cd, 0, 1);
+            so.FindProperty("Cd").floatValue = EditorGUILayout.Slider("Damper Stiffness", s.Cd, 0, 1);
 			EditorGUILayout.EndHorizontal();
 
             //Rest Length
             EditorGUILayout.BeginHorizontal();
-            s.restLength = EditorGUILayout.FloatField("Rest Length", s.restLength);
+            so.FindProperty("restLength").floatValue = EditorGUILayout.FloatField("Rest Length", s.restLength);
             EditorGUILayout.EndHorizontal();
 
             //Spring Travel
             EditorGUILayout.BeginHorizontal();
-            s.springTravel = EditorGUILayout.FloatField("Spring Travel", s.springTravel);
+            so.FindProperty("springTravel").floatValue = EditorGUILayout.FloatField("Spring Travel", s.springTravel);
             EditorGUILayout.EndHorizontal();
         }
-	}
+
+        so.ApplyModifiedProperties();
+    }
 
 	private void OnEnable() {
 		s = target as Suspension;
