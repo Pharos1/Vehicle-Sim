@@ -11,30 +11,29 @@ public class Suspension : MonoBehaviour {
 	private CarController cc;
 
 	[Header("Suspension")]
-	[SerializeField][Range(0, 1f)] private float Ck = 0.05f;
-	[SerializeField][Range(0, 1f)] private float Cd = 0.20f;
+	[HideInInspector] public bool showSuspensionList;
+	[HideInInspector] [Range(0, 1f)] public float Ck = 0.2f;
+	[HideInInspector] [Range(0, 1f)] public float Cd = 0.20f;
 
 	[SerializeField] public float restLength;
 	[SerializeField] private float springTravel;
 
 	[ReadOnly] private float minLength;
-	[ReadOnly] public float maxLength;
+	[ReadOnly] [HideInInspector] public float maxLength;
 	[ReadOnly] private float lastLength;
-	[ReadOnly] public float springLength;
+	[ReadOnly] [HideInInspector] public float springLength;
 	[ReadOnly] private float springForce;
 	[ReadOnly] private float damperForce;
 	[ReadOnly] private float springVelocity;
 
-	[ReadOnly] private float suspensionForce;
+	[ReadOnly] [HideInInspector] public float suspensionForce;
+
+    [HideInInspector] public float signedSpeed;
 
 
-
-	public float signedSpeed;
-
-
-    public float sWs; //Static Weight on Suspension
-    public float Ws; //Static Weight on Suspension
-
+    [HideInInspector] public float sWs; //Static Weight on Suspension
+    [HideInInspector] public float Ws; //Static Weight on Suspension
+	
     void Start() {
         w.s = this;
         w.car = car;
@@ -80,8 +79,9 @@ public class Suspension : MonoBehaviour {
 		//s.zmos.color = Color.red;
 		//Gizmos.DrawWireSphere(transform.position + transform.up * -springLength, radius);
 	}
-	private void suspension() {
+	private void suspension() { //Based on h4tt3n's math https://www.gamedev.net/tutorials/programming/math-and-physics/towards-a-simpler-stiffer-and-more-stable-spring-r3227/
         if (!w.grounded) return;
+
         float m1 = rb.mass / 4f;
 		float m2 = w.mass;
 
@@ -103,6 +103,7 @@ public class Suspension : MonoBehaviour {
 		//TODO: Experiment with this one here
 		rb.AddForceAtPosition(transform.up * suspensionForce * (m1 + m2) / m2, transform.position);
 
+		//TODO: this should be corrected, like research more and find a more elegant way to solve it
 		//To fix force making car go forward/backward depending on rotation of car body
 		Vector3 backForce = (w.hit.normal - transform.up) * suspensionForce * ((m1 + m2) / m2);
 		backForce = Vector3.Dot(transform.forward, backForce) * transform.forward;
