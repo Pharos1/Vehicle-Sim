@@ -28,7 +28,7 @@ public class Wheel : MonoBehaviour {
 	[HideInInspector] public float width; private float halfWidth => width / 2;
 
 	[Header("Wheel Config")]
-    [HideInInspector] public static bool showConfigList = false;
+    [HideInInspector] public bool configList = false;
     [HideInInspector] public WheelType type;
 
     [HideInInspector] public bool isWheelPowering = true;
@@ -37,7 +37,7 @@ public class Wheel : MonoBehaviour {
     [HideInInspector] public float Cbraking = 2000f; //Breaking Coefficent. Fine tune if needed.
 
 	[Header("Collision")]
-    [HideInInspector] public static bool showCollisionList = false;
+    [HideInInspector] public bool collisionList = false;
     [HideInInspector] public int layers = 10;
 	[HideInInspector] public int rays = 10;
     [HideInInspector] public bool useBetterCoverage = true; //For better coverage
@@ -47,7 +47,7 @@ public class Wheel : MonoBehaviour {
     [HideInInspector] public bool isGrounded;
 
 	[Header("Wheel Physics")]
-    [HideInInspector] public static bool showPhysicsList = false;
+    [HideInInspector] public bool physicsList = false;
     [HideInInspector] public float mass = 10; //KG
 	[HideInInspector] public float Crr = 0.012f;
     [HideInInspector] public float Cs = 30; //Side friction coeff
@@ -61,7 +61,7 @@ public class Wheel : MonoBehaviour {
     [HideInInspector] public Vector2 V; //Lateral(x) and Longitudinal(y) velocities
 
     //Gizmos
-    [HideInInspector] public static bool showGizmosList = false;
+    [HideInInspector] public bool gizmosList = false;
     [HideInInspector] public bool debugSize = true;
     [HideInInspector] public bool debugRays;
 
