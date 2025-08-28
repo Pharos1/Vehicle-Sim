@@ -8,7 +8,6 @@ public class Telemetry : MonoBehaviour {
     [SerializeField] private Transform car;
 
     [SerializeField] private Font font;
-    [SerializeField] private FontAsset fontass;
 
     private Rigidbody rb;
     private Car cc;
