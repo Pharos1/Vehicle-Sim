@@ -1747,7 +1747,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   w: {fileID: 7833798221840451437}
-  showSuspensionList: 0
   Ck: 0.2
   Cd: 0.2
   restLength: 0.2
@@ -1838,7 +1837,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   w: {fileID: 1435677290003199911}
-  showSuspensionList: 0
   Ck: 0.2
   Cd: 0.2
   restLength: 0.2
@@ -2001,7 +1999,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   w: {fileID: 8502045968555562120}
-  showSuspensionList: 0
   Ck: 0.2
   Cd: 0.2
   restLength: 0.2
@@ -2762,7 +2759,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   w: {fileID: 5755436159589144216}
-  showSuspensionList: 1
   Ck: 0.2
   Cd: 0.2
   restLength: 0.2
@@ -6190,30 +6186,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   s: {fileID: 1055655722}
-  debugSize: 0
+  steerTime: 8
+  steerAngle: 0
   radius: 0.355
   width: 0.3302
   type: 2
   isWheelPowering: 1
-  isWheelBreaking: 1
+  isWheelBraking: 1
   Cbraking: 2000
-  debugRays: 0
   layers: 10
   rays: 10
   useBetterCoverage: 1
   centerHitDist: 0
-  grounded: 0
-  steerTime: 8
-  steerAngle: 0
+  isGrounded: 0
   mass: 10
   Crr: 0.012
+  Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  wheelVelocityLS: {x: 0, y: 0, z: 0}
-  sideFriction: 30
   vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
+  debugSize: 0
+  debugRays: 0
 --- !u!4 &1436819022653466139
 Transform:
   m_ObjectHideFlags: 0
@@ -9615,19 +9610,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e0254f9b3f592449bf22c47eb4644d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sWf: 0
-  sWr: 0
-  Wf: 0
-  Wr: 0
-  Fdrag: {x: 0, y: 0, z: 0}
-  dragCoeff: 0.29
-  frontalArea: 1.85806
-  airDensity: 1.225
   wheels:
   - {fileID: 5755436159589144216}
   - {fileID: 8502045968555562120}
   - {fileID: 1435677290003199911}
   - {fileID: 7833798221840451437}
+  kerbWeight: 1460
+  wheelBase: 2.654
+  rearTrack: 1.575
+  turnRadius: 11.7
+  dragCoeff: 0.29
+  frontalArea: 1.85806
+  airDensity: 1.225
+  Fdrag: {x: 0, y: 0, z: 0}
+  sWf: 0
+  sWr: 0
+  Wf: 0
+  Wr: 0
   numOfDriveWheels: 0
   curGear: 1
   gearRatios:
@@ -9836,10 +9835,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   Tdrive: 0
-  kerbWeight: 1460
-  wheelBase: 2.654
-  rearTrack: 1.575
-  turnRadius: 11.7
   rpm: 0
   V: {x: 0, y: 0}
   debugCG: 0
@@ -16344,30 +16339,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   s: {fileID: 1783969994}
-  debugSize: 0
+  steerTime: 8
+  steerAngle: 0
   radius: 0.325
   width: 0.2921
   type: 0
   isWheelPowering: 0
-  isWheelBreaking: 1
+  isWheelBraking: 1
   Cbraking: 3000
-  debugRays: 0
   layers: 10
   rays: 10
   useBetterCoverage: 1
   centerHitDist: 0
-  grounded: 0
-  steerTime: 8
-  steerAngle: 0
+  isGrounded: 0
   mass: 10
   Crr: 0.012
+  Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  wheelVelocityLS: {x: 0, y: 0, z: 0}
-  sideFriction: 30
   vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
+  debugSize: 0
+  debugRays: 0
 --- !u!33 &5767003098697785840
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -20346,30 +20340,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   s: {fileID: 932720233}
-  debugSize: 0
+  steerTime: 8
+  steerAngle: 0
   radius: 0.355
   width: 0.3302
   type: 3
   isWheelPowering: 1
-  isWheelBreaking: 1
+  isWheelBraking: 1
   Cbraking: 2000
-  debugRays: 0
   layers: 10
   rays: 10
   useBetterCoverage: 1
   centerHitDist: 0
-  grounded: 0
-  steerTime: 8
-  steerAngle: 0
+  isGrounded: 0
   mass: 10
   Crr: 0.012
+  Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  wheelVelocityLS: {x: 0, y: 0, z: 0}
-  sideFriction: 30
   vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
+  debugSize: 0
+  debugRays: 0
 --- !u!1 &7853938801182954368
 GameObject:
   m_ObjectHideFlags: 0
@@ -21875,30 +21868,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   s: {fileID: 1100764251}
-  debugSize: 0
+  steerTime: 8
+  steerAngle: 0
   radius: 0.325
   width: 0.2921
   type: 1
   isWheelPowering: 0
-  isWheelBreaking: 1
+  isWheelBraking: 1
   Cbraking: 3000
-  debugRays: 0
   layers: 10
   rays: 10
   useBetterCoverage: 1
   centerHitDist: 0
-  grounded: 0
-  steerTime: 8
-  steerAngle: 0
+  isGrounded: 1
   mass: 10
   Crr: 0.012
+  Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  wheelVelocityLS: {x: 0, y: 0, z: 0}
-  sideFriction: 30
   vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
+  debugSize: 0
+  debugRays: 0
 --- !u!1 &8503874830760418612
 GameObject:
   m_ObjectHideFlags: 0

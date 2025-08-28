@@ -7,59 +7,61 @@ using UnityEngine;
 public class Car : MonoBehaviour {
     private Rigidbody rb;
 
-    [Header("Car Physics")]
+    [SerializeField] public Wheel[] wheels;
+
+    [SerializeField] public float kerbWeight = 1460f;
+    [SerializeField] private float wheelBase; //All are in meters
+    [SerializeField] private float rearTrack;
+    [SerializeField] private float turnRadius;
+
+    //Car Physics
+    [HideInInspector] public bool physicsList = false;
+    [HideInInspector] public float dragCoeff = 0.29f;
+    [HideInInspector] public float frontalArea = 1.85806f;
+    [HideInInspector] public float airDensity = 1.225f;
+    
+    [HideInInspector] public Vector3 Fdrag;
+
     [HideInInspector] public float sWf; //Static weight front
     [HideInInspector] public float sWr;
 
     [HideInInspector] public float Wf;
     [HideInInspector] public float Wr;
 
-    [Header("Drag")]
-    [HideInInspector] public Vector3 Fdrag;
-
-    [SerializeField] private float dragCoeff = 0.29f;
-    [SerializeField] private float frontalArea = 1.85806f;
-    [SerializeField] private float airDensity = 1.225f;
-
-
-    [Header("Wheels")]
-    [SerializeField] public Wheel[] wheels;
+    //Wheels
     private Suspension[] suspensions;
 
     [HideInInspector] public int numOfDriveWheels;
 
     //Car Config
-    [Header("Car State")]
-    [SerializeField] public int curGear = 1;
+    [HideInInspector] public int curGear = 1;
 
-    [Header("Transmission Config")]
-    [SerializeField] public float[] gearRatios; //0 - reverse, all other are as shown in inspector
-    [SerializeField] public float diffRatio = 3.42f;
-    [SerializeField] public float transmissionEfficiency = .7f; //Guess from Marco Monster
+    //Transmission Config
+    [HideInInspector] public bool transmissionList = false;
+    [HideInInspector] public float[] gearRatios; //0 - reverse, others - as shown
+    [HideInInspector] public float diffRatio = 3.42f; //Synonymous to final drive ratio
+    [HideInInspector] public float transmissionEfficiency = .85f;
 
     //Constants
-    [Header("Engine Config")]
-    [SerializeField] public AnimationCurve torqueCurve;
+    //Engine Config
+    [HideInInspector] public bool engineList = false;
+    [HideInInspector] public AnimationCurve torqueCurve;
 
     [HideInInspector] public float Tdrive;
-
-    [Header("Car Specs")]
-    [SerializeField] public float kerbWeight = 1460f;
-    [SerializeField] private float wheelBase; //All are in meters
-    [SerializeField] private float rearTrack;
-    [SerializeField] private float turnRadius;
 
     //Steering
     private float ackermannAngleLeft;
     private float ackermannAngleRight;
     
     //To be ordered
-    float v0 = 0;
+    private float v0 = 0;
 
     [HideInInspector] public float rpm;
     [HideInInspector] public Vector2 V;
 
-    [SerializeField] private bool debugCG = true;
+    //Gizmos
+    [HideInInspector] public bool gizmosList = false;
+    [HideInInspector] public bool debugCG = true;
 
     private void Start() {
         rb = transform.GetComponent<Rigidbody>();
