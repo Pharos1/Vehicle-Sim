@@ -2,7 +2,6 @@
 
 -- To Do --
 - Experiment with RPM calculation
-- Clean up CarController.cs
 - Account for drag, it isn't even enabled as I was testing something.
 - Calculation of rpm isnt the same for drive wheels and rolling wheels, must calculate rpm correctly based on that. Also F must be the sum of the force of all the wheels.
 - Implement clutch system
@@ -14,6 +13,14 @@
 - Take care of wrong front to rear axle length in weight transfer calculation
 - Cleanup All Files
 - Have to find out what is the problem with car going one way, it's evident that Fy for left drive wheel is lower
+
+- Implement multiple wheel axis, like have an axis object, that is managed by Car, and it manages the wheels and suspension, must be done after doing anti roll bars and integrated in the whole paradigm
+- Clean up Car.cs
+- The problem with car going in the last steer direction is because one of the front wheels is oscillating between grounded and not grounded, must be fixed somehow. It
+  sure starts from wrong calculation of something but escalates to a disaster once the oscilation starts.
+- Setup different cam views
+- Make anti roll bars better with new Axle.cs script (:
+- Learn about dds skins to use for the car model
 
 -- Problems --
 
