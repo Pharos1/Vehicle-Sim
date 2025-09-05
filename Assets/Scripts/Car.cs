@@ -63,6 +63,8 @@ public class Car : MonoBehaviour {
     [HideInInspector] public bool gizmosList = false;
     [HideInInspector] public bool debugCG = true;
 
+    [SerializeField] public float antiRoll = .1f;
+
     private void Start() {
         rb = transform.GetComponent<Rigidbody>();
 
@@ -141,6 +143,9 @@ public class Car : MonoBehaviour {
 
         //Debug.Log("RPM Calc: " + newrpm);
         v0 = v;
+
+        antiRollBars(wheels[0], wheels[1]);
+        antiRollBars(wheels[2], wheels[3]);
     }
     private float LookupTorqueCurve(float rpm) { //In Nm
         return torqueCurve.Evaluate(rpm);
@@ -226,6 +231,22 @@ public class Car : MonoBehaviour {
                 w.steerAngle = ackermannAngleRight;
             }
         }
+    }
+    private void antiRollBars(Wheel wheelR, Wheel wheelL) {
+        //Anti roll bars
+        float travelL;
+        float travelR;
+
+            travelL = (wheelL.s.springLength - wheelL.s.restLength) / (wheelL.s.springTravel);
+
+            travelR = (wheelR.s.springLength - wheelR.s.restLength) / (wheelR.s.springTravel);
+
+        var antiRollForce = (travelL - travelR) * antiRoll;// * -(rb.mass / (Time.fixedDeltaTime * Time.fixedDeltaTime) * wheelL.s.Ck);
+
+		
+            rb.AddForceAtPosition(wheelL.s.transform.up * -antiRollForce, wheelL.s.transform.position);
+        
+            rb.AddForceAtPosition(wheelR.s.transform.up * antiRollForce, wheelR.s.transform.position);
     }
     private void OnDrawGizmos() {
         if (debugCG) {
