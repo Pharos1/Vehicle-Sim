@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEngine;
 
 [CustomEditor(typeof(Suspension))]
 [CanEditMultipleObjects]
@@ -7,17 +8,20 @@ public class SuspensionEditor : Editor {
 
 	SerializedObject so => serializedObject;
 
+	SerializedProperty suspensionList;
+
 	public override void OnInspectorGUI() {
 		base.OnInspectorGUI();
 
 		EditorGUILayout.Space(10);
 
-		Suspension.showSuspensionList = EditorGUILayout.Foldout(Suspension.showSuspensionList, "Suspension Config");
-		if (Suspension.showSuspensionList) {
-			so.FindProperty("Ck").floatValue = EditorGUILayout.Slider("Spring Stiffness", s.Ck, 0, 1);
-			so.FindProperty("Cd").floatValue = EditorGUILayout.Slider("Damper Stiffness", s.Cd, 0, 1);
-			so.FindProperty("restLength").floatValue = EditorGUILayout.FloatField("Rest Length", s.restLength);
-			so.FindProperty("springTravel").floatValue = EditorGUILayout.FloatField("Spring Travel", s.springTravel);
+        suspensionList = so.FindProperty("suspensionList");
+        suspensionList.isExpanded = EditorGUILayout.Foldout(suspensionList.isExpanded, "Suspension Config");
+		if (suspensionList.isExpanded) {
+            EditorGUILayout.PropertyField(so.FindProperty("Ck"), new GUIContent("Spring Stiffness"));
+            EditorGUILayout.PropertyField(so.FindProperty("Cd"), new GUIContent("Damper Stiffness"));
+            EditorGUILayout.PropertyField(so.FindProperty("restLength"), new GUIContent("Rest Length"));
+            EditorGUILayout.PropertyField(so.FindProperty("springTravel"), new GUIContent("Spring Travel"));
 		}
 
 		so.ApplyModifiedProperties();
