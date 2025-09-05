@@ -24,8 +24,8 @@ public class Wheel : MonoBehaviour {
     [HideInInspector] private float wheelAngle;
 
     [Header("Wheel Dimensions")]
-    [HideInInspector] public float radius;
-	[HideInInspector] public float width; private float halfWidth => width / 2;
+    [SerializeField] public float radius;
+	[SerializeField] public float width; private float halfWidth => width / 2;
 
 	[Header("Wheel Config")]
     [HideInInspector] public bool configList = false;
@@ -174,7 +174,7 @@ public class Wheel : MonoBehaviour {
 
 		//-Side friction or smth
 		if (isGrounded) {
-            F.x += -Vector3.Dot(transform.right, rb.GetPointVelocity(hit.point)) * 90f * Cs;
+            F.x += -Vector3.Dot(s.transform.right, rb.GetPointVelocity(hit.point)) * 90f * Cs;
 		}
 
 		//Applying Forces
@@ -197,14 +197,18 @@ public class Wheel : MonoBehaviour {
 		if (isWheelBraking && isGrounded && Input.GetKey(KeyCode.Space)) { //} && !ApproximatelyEquals(0, velInTractionDir.magnitude, 0.01f)) {
 			float Fbraking = -Mathf.Sign(V.y) * Cbraking;
 
-			float velIncrease = Cbraking * Time.fixedDeltaTime / rb.mass;
+            //This is to prevent oscillation at near zero velocity
+            //When near stopping makes Fbraking converge to zero at a square root rate.
+            if (Mathf.Abs(V.y) < .5f) F.y += Fbraking * Mathf.Sqrt(Mathf.Abs(V.y));
+            else F.y += Fbraking;
+        }
 
-			if ((vLong.magnitude - velIncrease) < 0.01f) {
-				Fbraking = 0;
-			}
-			F.y += Fbraking;
-		}
-
-		rb.AddForceAtPosition(s.transform.TransformVector(new Vector3(F.x, 0, F.y)), hit.point);
+		//TODO: certainly this has to be fixed, it has to do with how the wheel point isn't srictly under
+		//the wheel so the force is being applied more to the left/right depending on col implementation
+		//if something like average position weighted by the relevence(closenes) is used it could
+		//solve the problem and the force can be applied evenly, must think about how the position ofthe wheel
+		//will be changed because of this collision "patch" way of doing things.
+		Vector3 underWheelPoint = s.transform.position - s.transform.up * (s.springLength + radius);
+		rb.AddForceAtPosition(s.transform.TransformVector(new Vector3(F.x, 0, F.y)), underWheelPoint);
 	}
 }
