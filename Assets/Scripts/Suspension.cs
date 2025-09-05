@@ -11,7 +11,7 @@ public class Suspension : MonoBehaviour {
 	private Car cc;
 
 	[Header("Suspension")]
-	[HideInInspector] public static bool showSuspensionList;
+	[HideInInspector] public bool suspensionList;
 	[HideInInspector] public float Ck = 0.2f;
 	[HideInInspector] public float Cd = 0.20f;
 
@@ -91,7 +91,7 @@ public class Suspension : MonoBehaviour {
 		lastLength = springLength;
 
         springLength = w.hit.distance - w.centerHitDist; //When having one raycast centerHitDist = radius
-		//springLength = Mathf.Clamp(springLength, minLength, maxLength);
+		springLength = Mathf.Clamp(springLength, minLength, maxLength);
 		springVelocity = (springLength - lastLength) / Time.fixedDeltaTime;
 
 		float displacement = springLength - restLength;
@@ -108,5 +108,5 @@ public class Suspension : MonoBehaviour {
 		Vector3 backForce = (w.hit.normal - transform.up) * suspensionForce * ((m1 + m2) / m2);
 		backForce = Vector3.Dot(transform.forward, backForce) * transform.forward;
 		rb.AddForceAtPosition(backForce, transform.position);
-	}
+    }
 }
