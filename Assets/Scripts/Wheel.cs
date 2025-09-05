@@ -72,8 +72,6 @@ public class Wheel : MonoBehaviour {
 		rb = car.GetComponent<Rigidbody>();
 		cc = car.GetComponent<Car>();
 
-		hit.point = s.transform.position - s.transform.up * (s.maxLength + radius);
-
 		transform.SetParent(null, true); //Make the wheels not moved with their parents
 	}
 	private void Update() {
