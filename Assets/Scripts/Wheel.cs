@@ -68,6 +68,12 @@ public class Wheel : MonoBehaviour {
     //To be organized
     float rotationPitch = 0;
 
+	//Collision to be moved to editor
+	public float penetrationAmount = .02f;
+	List<RaycastHit> otherHits = new List<RaycastHit>();
+	[HideInInspector] public Vector3 avgNormal;
+	[HideInInspector] public Vector3 avgPoint;
+
     private void Start() {
 		rb = car.GetComponent<Rigidbody>();
 		cc = car.GetComponent<Car>();
@@ -81,7 +87,7 @@ public class Wheel : MonoBehaviour {
 			rotationPitch += Mathf.Rad2Deg * wheelOmega * Time.deltaTime;
 			rotationPitch = Mathf.Repeat(rotationPitch, 360f);
 
-			transform.SetPositionAndRotation(s.transform.position - s.transform.up * s.springLength, s.transform.rotation * Quaternion.Euler(rotationPitch, 0, 0));
+			transform.SetPositionAndRotation(s.transform.position - s.transform.up * s.springLength/*Mathf.Clamp(s.springLength, s.minLength, s.maxLength)*/, s.transform.rotation * Quaternion.Euler(rotationPitch, 0, 0));
 		}
 	}
 	private void FixedUpdate() {
@@ -102,15 +108,27 @@ public class Wheel : MonoBehaviour {
 			Handles.DrawWireDisc(s.transform.position - s.transform.up * s.springLength - s.transform.right * halfWidth, s.transform.right, radius);
 		}
 
-		Gizmos.color = Color.red;
-		Gizmos.DrawSphere(hit.point, .05f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(hit.point, .02f);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(avgPoint, .02f);
+
+        Gizmos.color = Color.red;
+        foreach (RaycastHit _ in otherHits) {
+			Gizmos.DrawWireSphere(_.point, .01f);
+		}
 	}
 	public void collision() {
 		hit = new RaycastHit(); //Set dummy data as to not glitch anything
+        hit.point = s.transform.position - s.transform.up * (s.restLength + radius);
+        hit.distance = Vector3.Distance(s.transform.position, hit.point);
+        hit.normal = Vector3.zero;//transform.up;
 
-		hit.point = s.transform.position - s.transform.up * (s.restLength + radius);
-		hit.distance = Vector3.Distance(s.transform.position, hit.point);
-		hit.normal = Vector3.zero;//transform.up;
+        otherHits.Clear();
+        avgNormal = Vector3.zero;
+        avgPoint = Vector3.zero;
+
 
 		centerHitDist = radius;
 		isGrounded = false;
@@ -148,31 +166,51 @@ public class Wheel : MonoBehaviour {
 					//Debug.DrawRay(origin, -transform.up * (maxLength + length), Color.yellow);
 				}
 
-				if (Physics.Raycast(origin, -s.transform.up, out RaycastHit tempHit, s.maxLength + length, ~(1 << LayerMask.NameToLayer("Car")))) {
+				if (Physics.Raycast(origin, -s.transform.up, out RaycastHit tempHit, Mathf.Clamp(s.springLength, s.minLength, s.maxLength) + length + penetrationAmount, ~(1 << LayerMask.NameToLayer("Car")))) {
 					float d1 = tempHit.distance - length;
 					float d2 = hit.distance - centerHitDist;
 
-					if (d1 < d2) {
+                    otherHits.Add(tempHit);
+					float penetrationDepth = Mathf.Max(0, (s.springLength + length - tempHit.distance + penetrationAmount) / penetrationAmount);
+
+                    avgNormal += penetrationDepth * tempHit.normal; //Contribute percentage of normal
+                    avgPoint += tempHit.point; //Contribute percentage of normal
+
+                    if (d1 < d2) {
 						hit = tempHit;
 						centerHitDist = length;
+						//hit.distance += penetrationAmount;
 						isGrounded = true;
 					}
 				}
-			}
+
+            }
 		}
-	}
+
+        avgNormal = avgNormal.normalized;
+        avgPoint /= otherHits.Count;
+
+        //TODO: Note: this is to remove the x dir of the normal, this should not be used combined with pacejka, this is because I dont have such an advanced model at the time
+        //avgNormal -= Vector3.Dot(s.transform.right, avgNormal) * s.transform.right;
+
+        if (!isGrounded) {
+			avgNormal = s.transform.up;
+            avgPoint = s.transform.position - s.transform.up * (s.restLength + radius);
+			s.springLength = s.restLength;
+        }
+    }
 	public void calcAndApplyForces() {
 		F = Vector2.zero;
 		
-		tractionDir = Vector3.Cross(hit.normal, -s.transform.right).normalized;//Quaternion.AngleAxis(90, transform.right) * contact.Value.normal;
-		sideDir = Vector3.Cross(hit.normal, s.transform.forward).normalized;
+		tractionDir = Vector3.Cross(avgNormal, -s.transform.right).normalized;//Quaternion.AngleAxis(90, transform.right) * contact.Value.normal;
+		sideDir = Vector3.Cross(avgNormal, s.transform.forward).normalized;
 
-		Debug.DrawRay(hit.point, tractionDir, Color.blue);
-		Debug.DrawRay(hit.point, sideDir, Color.magenta);
+		//Debug.DrawRay(transform.position - s.transform.up * (radius - penetrationAmount), tractionDir, Color.red);
+		//Debug.DrawRay(transform.position - s.transform.up * (radius - penetrationAmount), sideDir, Color.magenta);
 
 		//-Side friction or smth
 		if (isGrounded) {
-            F.x += -Vector3.Dot(s.transform.right, rb.GetPointVelocity(hit.point)) * 90f * Cs;
+            F.x += -Vector3.Dot(sideDir, rb.GetPointVelocity(hit.point)) * 90f * Cs;
 		}
 
 		//Applying Forces
@@ -185,8 +223,8 @@ public class Wheel : MonoBehaviour {
 
 		//-Rolling Resistance
 		if (isGrounded) {
-			float normalForce = s.Ws * -Physics.gravity.y;
-			float Frr = Crr * normalForce * -Mathf.Sign(V.y);
+			float normalForce = s.suspensionForce; //Suspension force is the force applied on the ground by the wheel. Acording to Newton's Third Law of Motion.
+            float Frr = Crr * normalForce * -Mathf.Sign(V.y);
 
 			F.y += Frr;
 		}
@@ -197,16 +235,11 @@ public class Wheel : MonoBehaviour {
 
             //This is to prevent oscillation at near zero velocity
             //When near stopping makes Fbraking converge to zero at a square root rate.
-            if (Mathf.Abs(V.y) < .5f) F.y += Fbraking * Mathf.Sqrt(Mathf.Abs(V.y));
-            else F.y += Fbraking;
+			//When below certain speed(e.g .1f) then stop braking completely.
+			if (Mathf.Abs(V.y) > 1f) F.y += Fbraking; 
+            if (Mathf.Abs(V.y) < 1f && Mathf.Abs(V.y) > .1f) F.y += Fbraking * Mathf.Sqrt(Mathf.Abs(V.y));
         }
 
-		//TODO: certainly this has to be fixed, it has to do with how the wheel point isn't srictly under
-		//the wheel so the force is being applied more to the left/right depending on col implementation
-		//if something like average position weighted by the relevence(closenes) is used it could
-		//solve the problem and the force can be applied evenly, must think about how the position ofthe wheel
-		//will be changed because of this collision "patch" way of doing things.
-		Vector3 underWheelPoint = s.transform.position - s.transform.up * (s.springLength + radius);
-		rb.AddForceAtPosition(s.transform.TransformVector(new Vector3(F.x, 0, F.y)), underWheelPoint);
+		rb.AddForceAtPosition(s.transform.TransformVector(new Vector3(F.x, 0, F.y)), avgPoint);
 	}
 }

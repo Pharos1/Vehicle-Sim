@@ -63,7 +63,7 @@ public class Car : MonoBehaviour {
     [HideInInspector] public bool gizmosList = false;
     [HideInInspector] public bool debugCG = true;
 
-    [SerializeField] public float antiRoll = .1f;
+    [SerializeField] public float antiRoll = .7f;
 
     private void Start() {
         rb = transform.GetComponent<Rigidbody>();
@@ -232,20 +232,26 @@ public class Car : MonoBehaviour {
             }
         }
     }
-    private void antiRollBars(Wheel wheelR, Wheel wheelL) {
+    private void antiRollBars(Wheel wheelL, Wheel wheelR) {
         //Anti roll bars
         float travelL;
         float travelR;
 
+        //if (wheelL.isGrounded)
             travelL = (wheelL.s.springLength - wheelL.s.restLength) / (wheelL.s.springTravel);
-
+        //else
+        //    travelL = 1f;
+        //if (wheelR.isGrounded)
             travelR = (wheelR.s.springLength - wheelR.s.restLength) / (wheelR.s.springTravel);
+        //else
+        //    travelR = 1f;
 
-        var antiRollForce = (travelL - travelR) * antiRoll;// * -(rb.mass / (Time.fixedDeltaTime * Time.fixedDeltaTime) * wheelL.s.Ck);
+        var antiRollForce = (travelL - travelR) * antiRoll * ((rb.mass / 4f) / (Time.fixedDeltaTime * Time.fixedDeltaTime)) * ((wheelL.s.Ck + wheelR.s.Ck) / 2) * ((wheelL.s.springTravel + wheelR.s.springTravel) / 2);// * antiRoll;// * -(rb.mass / (Time.fixedDeltaTime * Time.fixedDeltaTime) * wheelL.s.Ck);
 
-		
+
+        //if (wheelL.isGrounded)
             rb.AddForceAtPosition(wheelL.s.transform.up * -antiRollForce, wheelL.s.transform.position);
-        
+        //if (wheelR.isGrounded)
             rb.AddForceAtPosition(wheelR.s.transform.up * antiRollForce, wheelR.s.transform.position);
     }
     private void OnDrawGizmos() {

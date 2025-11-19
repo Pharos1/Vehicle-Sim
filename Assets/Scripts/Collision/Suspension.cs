@@ -18,7 +18,7 @@ public class Suspension : MonoBehaviour {
 	[HideInInspector] public float restLength;
 	[HideInInspector] public float springTravel;
 
-	[ReadOnly] private float minLength;
+	[ReadOnly] [HideInInspector] public float minLength;
 	[ReadOnly] [HideInInspector] public float maxLength;
 	[ReadOnly] private float lastLength;
 	[ReadOnly] [HideInInspector] public float springLength;
@@ -34,6 +34,9 @@ public class Suspension : MonoBehaviour {
     [HideInInspector] public float sWs; //Static Weight on Suspension
     [HideInInspector] public float Ws; //Static Weight on Suspension
 	
+	SolutionVector state;
+	public float tau = 1;
+
     void Start() {
         w.s = this;
         w.car = car;
@@ -83,30 +86,69 @@ public class Suspension : MonoBehaviour {
         if (!w.isGrounded) return;
 
         float m1 = rb.mass / 4f;
-		float m2 = w.mass;
 
 		//Calculate suspension forces
-		float mred = (m1 * m2) / (m1 + m2); //Reduced mass
-
 		lastLength = springLength;
-
         springLength = w.hit.distance - w.centerHitDist; //When having one raycast centerHitDist = radius
-		springLength = Mathf.Clamp(springLength, minLength, maxLength);
+		//TODO: This I dont use as sometimes the wheel would enter the floor, when it the spring reaches its max compression it would  be more right to treat it as a stick that cant compress, but I cant seemm to figure out how to do such a thing
+		//springLength = Mathf.Clamp(springLength, minLength, maxLength);
 		springVelocity = (springLength - lastLength) / Time.fixedDeltaTime;
 
 		float displacement = springLength - restLength;
-		springForce = -(mred / (Time.fixedDeltaTime * Time.fixedDeltaTime)) * Ck * displacement;
-		damperForce = -(mred / Time.fixedDeltaTime) * Cd * springVelocity;
+		springForce = -(m1 / (Time.fixedDeltaTime * Time.fixedDeltaTime)) * Ck * displacement;
+		damperForce = -(m1 / Time.fixedDeltaTime) * Cd * springVelocity;
 
 		suspensionForce = (springForce + damperForce);
 
-		//TODO: Experiment with this one here
-		rb.AddForceAtPosition(transform.up * suspensionForce * (m1 + m2) / m2, transform.position);
+        //TODO: Experiment with this one here
+        //Vector3 z = transform.forward * Vector3.Dot(transform.forward, w.avgNormal);
+        //Vector3 y = transform.up * Vector3.Dot(transform.up, w.avgNormal);
+        //Vector3 x = transform.right * Vector3.Dot(transform.right, w.avgNormal);
 
-		//TODO: this should be corrected, like research more and find a more elegant way to solve it
-		//To fix force making car go forward/backward depending on rotation of car body
-		Vector3 backForce = (w.hit.normal - transform.up) * suspensionForce * ((m1 + m2) / m2);
+        //Debug.DrawRay(w.hit.point, Vector3.Normalize(transform.position - w.avgPoint));
+		Vector3 dir = w.avgNormal - transform.right * Vector3.Dot(transform.right, w.avgNormal);// transform.forward * Vector3.Dot(transform.forward, w.avgNormal) + transform.up * Vector3.Dot(transform.up,w.avgNormal);
+        rb.AddForceAtPosition(dir * Mathf.Max(0, suspensionForce), transform.position);
+
+        if (w.type == Wheel.WheelType.RL || w.type == Wheel.WheelType.RR) {
+            //rb.AddForceAtPosition(w.avgNormal * suspensionForce, transform.position);
+        }
+        //TODO: this should be corrected, like research more and find a more elegant way to solve it
+        //To fix force making car go forward/backward depending on rotation of car body
+        Vector3 backForce = (w.avgNormal - transform.up) * suspensionForce;
 		backForce = Vector3.Dot(transform.forward, backForce) * transform.forward;
-		rb.AddForceAtPosition(backForce, transform.position);
+		//rb.AddForceAtPosition(backForce, transform.position);
+    }
+	private void calcDerivatives(SolutionVector x0, out SolutionVector dxdt) {
+		dxdt = new SolutionVector();
+		dxdt.sLength = (springLength - lastLength) / Time.fixedDeltaTime;
+
+    }
+	private void integrateRK4(float deltaTime) {
+        SolutionVector k1, k2, k3, k4;
+        SolutionVector x;
+
+
+
+
+
+
+
+
+        // Runge-Kutta 4 integration     
+        calcDerivatives(state, out k1);
+        x = state;
+        x.add(k1, 0.5f * deltaTime);
+        calcDerivatives(x, out k2);
+        x = state;
+        x.add(k2, 0.5f * deltaTime);
+        calcDerivatives(x, out k3);
+        x = state;
+        x.add(k3, deltaTime);
+        calcDerivatives(x, out k4);
+
+        state.add(k1, deltaTime / 6.0f);
+        state.add(k2, deltaTime / 3.0f);
+        state.add(k3, deltaTime / 3.0f);
+        state.add(k4, deltaTime / 6.0f);
     }
 }

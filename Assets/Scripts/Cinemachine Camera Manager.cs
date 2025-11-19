@@ -17,6 +17,9 @@ public class CinemachineCameraManager : MonoBehaviour {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
 
+            cof.HorizontalAxis.CancelRecentering();
+            cof.VerticalAxis.CancelRecentering();
+            cof.RadialAxis.CancelRecentering();
             cineCam.GetComponent<CinemachineInputAxisController>().enabled = true;
         }
         else {
