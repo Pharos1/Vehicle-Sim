@@ -28,6 +28,8 @@ public class Car : MonoBehaviour {
     [HideInInspector] public float Wf;
     [HideInInspector] public float Wr;
 
+    [HideInInspector] public float Tengine = 0;
+
     //Wheels
     private Suspension[] suspensions;
 
@@ -107,15 +109,24 @@ public class Car : MonoBehaviour {
         rb.AddForceAtPosition(Fdrag, rb.position); //This is in the center. Not realistic but good enough.
 
         //Calculating RPM
-        float velInWheelDir = Vector3.Dot(rb.velocity, wheels[0].tractionDir);
-        rpm = velInWheelDir / wheels[0].radius; //TODO: here we are assuming every wheels has the same radius
-        rpm = rpm * gearRatio * diffRatio * (60 / (2 * Mathf.PI)); /*To Convert from rad/s to rpm/min */
-        rpm = Mathf.Abs(rpm);
+        //float velInWheelDir = Vector3.Dot(rb.velocity, wheels[0].tractionDir);
+        //rpm = velInWheelDir / wheels[0].radius; //TODO: here we are assuming every wheels has the same radius
+        //rpm = rpm * gearRatio * diffRatio * (60 / (2 * Mathf.PI)); /*To Convert from rad/s to rpm/min */
+        //rpm = Mathf.Abs(rpm);
+        //
+        //rpm = Mathf.Clamp(rpm, 1000, 6000); //If rpm is zero then the car will never start. If too high just doesn't make sense
 
+
+        ////TEST RPM
+        rpm = ((wheels[0].omega + wheels[1].omega) / 2); //TODO: here we are assuming every wheels has the same radius
+        rpm *= gearRatio * diffRatio * (60 / (2 * Mathf.PI)); /*To Convert from rad/s to rpm/min */
+        
+        rpm = Mathf.Abs(rpm);
         rpm = Mathf.Clamp(rpm, 1000, 6000); //If rpm is zero then the car will never start. If too high just doesn't make sense
 
+
         //Torque of Engine
-        float Tengine = LookupTorqueCurve(rpm);
+        Tengine = LookupTorqueCurve(rpm);
 
        //Debug.Log(rpm);
         //Debug.Log("kph: " + rb.velocity.magnitude * 3600 / 1000);

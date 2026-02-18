@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
+using System;
+using Unity.Profiling;
 
 public class Wheel : MonoBehaviour {
 	public Transform car;
@@ -74,6 +76,15 @@ public class Wheel : MonoBehaviour {
 	[HideInInspector] public Vector3 avgNormal;
 	[HideInInspector] public Vector3 avgPoint;
 
+
+
+    [HideInInspector] public float omega = 0;
+    [HideInInspector] public float wheelRotationAngle = 0;
+    float slipRatio = 0;
+
+    public float internalDampCoeff = .25f;
+
+
     private void Start() {
 		rb = car.GetComponent<Rigidbody>();
 		cc = car.GetComponent<Car>();
@@ -82,10 +93,9 @@ public class Wheel : MonoBehaviour {
 	}
 	private void Update() {
 		if (!float.IsNaN(s.signedSpeed)) {
-			float wheelOmega = s.signedSpeed / radius;
+			rotationPitch = wheelRotationAngle;//Mathf.Rad2Deg * omega * Time.deltaTime;
 
-			rotationPitch += Mathf.Rad2Deg * wheelOmega * Time.deltaTime;
-			rotationPitch = Mathf.Repeat(rotationPitch, 360f);
+            rotationPitch = Mathf.Repeat(rotationPitch, 360f);
 
 			transform.SetPositionAndRotation(s.transform.position - s.transform.up * s.springLength/*Mathf.Clamp(s.springLength, s.minLength, s.maxLength)*/, s.transform.rotation * Quaternion.Euler(rotationPitch, 0, 0));
 		}
@@ -199,6 +209,9 @@ public class Wheel : MonoBehaviour {
 			s.springLength = s.restLength;
         }
     }
+    float Fx = 0;
+    float Fy = 0;
+    [SerializeField] float denomSlider = 128;
 	public void calcAndApplyForces() {
 		F = Vector2.zero;
 		
@@ -208,38 +221,241 @@ public class Wheel : MonoBehaviour {
 		//Debug.DrawRay(transform.position - s.transform.up * (radius - penetrationAmount), tractionDir, Color.red);
 		//Debug.DrawRay(transform.position - s.transform.up * (radius - penetrationAmount), sideDir, Color.magenta);
 
+		float sideFric = 0;
+		float Fdrive = 0, Frr = 0, Fbraking = 0;
+
 		//-Side friction or smth
 		if (isGrounded) {
-            F.x += -Vector3.Dot(sideDir, rb.GetPointVelocity(hit.point)) * 90f * Cs;
+            sideFric = -Vector3.Dot(sideDir, rb.GetPointVelocity(hit.point)) * 90f * Cs;
 		}
 
 		//Applying Forces
 		//-Drive Force
 		if (isWheelPowering && isGrounded) {
-			float Fdrive = cc.Tdrive / radius;
-
-			F.y += Fdrive;
+			Fdrive = cc.Tdrive / radius;
 		}
 
 		//-Rolling Resistance
 		if (isGrounded) {
 			float normalForce = s.suspensionForce; //Suspension force is the force applied on the ground by the wheel. Acording to Newton's Third Law of Motion.
-            float Frr = Crr * normalForce * -Mathf.Sign(V.y);
-
-			F.y += Frr;
+            Frr = Crr * normalForce * -Mathf.Sign(V.y);
 		}
 
 		//-Breaking Force
 		if (isWheelBraking && isGrounded && Input.GetKey(KeyCode.Space)) { //} && !ApproximatelyEquals(0, velInTractionDir.magnitude, 0.01f)) {
-			float Fbraking = -Mathf.Sign(V.y) * Cbraking;
-
             //This is to prevent oscillation at near zero velocity
             //When near stopping makes Fbraking converge to zero at a square root rate.
 			//When below certain speed(e.g .1f) then stop braking completely.
-			if (Mathf.Abs(V.y) > 1f) F.y += Fbraking; 
-            if (Mathf.Abs(V.y) < 1f && Mathf.Abs(V.y) > .1f) F.y += Fbraking * Mathf.Sqrt(Mathf.Abs(V.y));
+            Fbraking = -Mathf.Sign(V.y) * Cbraking;
+
+            if (Mathf.Abs(V.y) < .1f)
+                Fbraking = 0;
+            else if (Mathf.Abs(V.y) < 1f)
+				Fbraking *= Mathf.Sqrt(Mathf.Abs(V.y));
         }
 
-		rb.AddForceAtPosition(s.transform.TransformVector(new Vector3(F.x, 0, F.y)), avgPoint);
-	}
+		F.x += sideFric;
+		F.y += Fdrive + Frr + Fbraking;
+        
+        //F.y  -= Fdrive;
+        //rb.AddForceAtPosition(s.transform.TransformVector(new Vector3(F.x, 0, F.y)), avgPoint);
+
+
+
+        //Hopefully Last Try ;(
+        if (!isGrounded) {
+            return;
+        }
+        Vector3 velocityWorld = rb.GetPointVelocity(avgPoint);
+        Vector3 velocityLocal = transform.InverseTransformDirection(velocityWorld);
+        float Vx = velocityLocal.z; 
+        float Vy = velocityLocal.x;
+
+
+
+
+        float G = cc.gearRatios[cc.curGear] * cc.diffRatio; //Total Gear Ratio
+
+        float V_low = .3f;
+
+        float Fz = Mathf.Max(0, s.suspensionForce);
+
+        float T_engine = cc.Tengine * Input.GetAxis("Vertical");
+        float T_brake = Fbraking * radius;
+        float T_damp = internalDampCoeff * omega;
+
+
+        float I_wheel = 2.35f;
+        float I_engine = .32f;
+        float I_eff = I_wheel + (I_engine * G * G);
+
+        float netTorque = T_engine * G + T_brake - (Fx * radius) - T_damp;
+
+        omega += (netTorque / I_eff) * Time.fixedDeltaTime;
+        wheelRotationAngle += omega * Mathf.Rad2Deg * Time.fixedDeltaTime;
+
+        float kappa = (radius * omega - Vx) / Mathf.Max(V_low, Mathf.Abs(Vx));
+
+        float[] b = new float[] { 1.5f, 0f, 1100, 0, 300, 0, 0, 0, -2, 0, 0, 0, 0, 0 };
+        Fx = PacejkaFx(Fz / 1000, kappa, b);
+
+
+        float alpha = Mathf.Rad2Deg * -Mathf.Atan(Vy / Mathf.Max(V_low, Mathf.Abs(Vx)));
+        float gamma = 0; //TODO: Camber is zero, could be changed
+
+        float[] a = new float[] { 1.4f, 0, 1100, 1100, 10, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        Fy = PacejkaFy(Fz / 1000, alpha, gamma, a);
+
+        //Vector3 forceWorld = (tractionDir * Fx_comb) + (transform.right * Fy_comb);
+        //rb.AddForceAtPosition(forceWorld, avgPoint);
+
+        rb.AddForceAtPosition(Fx * tractionDir, avgPoint);
+        rb.AddForceAtPosition(Fy * sideDir, avgPoint);
+        Debug.Log(Fy);
+        //Debug.Log("Start: " + V_low + " " + Fz + " " + netTorque + " " + omega + " " + wheelRotationAngle + " " + kappa);
+
+
+        return;
+    }
+
+
+
+
+    float PacejkaFx(float Fz, float kappa, float[] b) {
+        float C = b[0];
+        float D = Fz * (b[1] * Fz + b[2]);
+        float BCD = (b[3] * Fz * Fz + b[4] * Fz) * Mathf.Exp(-b[5] * Fz);
+        float B = BCD / (C * D);
+        float H = b[9] * Fz + b[10];
+        float E = (b[6] * Fz * Fz + b[7] * Fz + b[8]) * (1 - b[13] * Mathf.Sign(kappa + H));
+        float V = b[11] * Fz + b[12];
+        float Bx1 = B * (kappa + H); //Composite
+        //Debug.Log(b[0]);
+        float F = D * Mathf.Sin(C * Mathf.Atan(Bx1 - E * (Bx1 - Mathf.Atan(Bx1)))) + V;
+        //Debug.Log(F);
+        return F;
+    }
+    float PacejkaFy(float Fz, float alpha, float gamma, float[] a) {
+        float C = a[0];
+        float D = Fz * (a[1] * Fz + a[2]) * (1 - a[15] * gamma * gamma);
+        float BCD = a[3] * Mathf.Sin(Mathf.Atan(Fz / a[4]) * 2) * (1 - a[5] * Mathf.Abs(gamma));
+        float B = BCD / (C * D);
+        float H = a[8] * Fz + a[9] + a[10] * gamma;
+        float E = (a[6] * Fz + a[7]) * (1 - (a[16] * gamma + a[17]) * Mathf.Sign(alpha + H));
+        float V = a[11] * Fz + a[12] + (a[13] * Fz + a[14]) * gamma * Fz;
+        float Bx1 = B * (alpha + H); //Composite
+        //Debug.Log(b[0]);
+        float F = D * Mathf.Sin(C * Mathf.Atan(Bx1 - E * (Bx1 - Mathf.Atan(Bx1)))) + V;
+        //Debug.Log(F);
+        return F;
+    }
+    /*
+    //if (!isGrounded) {
+    //    return;
+    //}
+
+    //Pacejka MF
+    omega = (float.IsNaN(omega) ? 0 : omega);
+    slipRatio = (float.IsNaN(slipRatio) ? 0 : slipRatio);
+
+    float I = mass * (radius * radius);
+
+    float T_net = cc.Tdrive + Fx * radius + Fbraking * radius;
+
+    omega += (T_net / I) * Time.fixedDeltaTime;
+    float vWheel = omega * radius;
+
+    float vLong = Vector3.Dot(rb.GetPointVelocity(avgPoint), tractionDir);
+    float denom = vLong;//Mathf.Max(Mathf.Abs(vLong), Mathf.Abs(vWheel), 0.5f);
+
+    float kappa = (vWheel - vLong) / denom; //Slip Ratio
+    Fx = cc.Tdrive; //(float)pacejkaFx(new double[] { 1.65, 0.0, 1688.0, 0.0, 229.0, 0.0, 0.0, 0.0, -10.0, 0.0, 0.0, 0.0, 0.0 }, s.suspensionForce, kappa) / denomSlider;////////   
+
+
+    //Vector3 tireForce = (Fx + Frr) * tractionDir + F.x * sideDir;
+    if (isGrounded) {
+        //rb.AddForceAtPosition(((cc.Tdrive * radius) - Fx + Frr + ) * tractionDir, avgPoint);
+        //rb.AddForceAtPosition(T_net * tractionDir, avgPoint);  
+        //rb.AddForceAtPosition(F.x * sideDir, avgPoint);
+    }
+
+
+
+    //MF
+
+
+    //F_long *= Input.GetAxis("Vertical");
+    //if (cc.Tdrive == 0) {
+    //    F_long *= 0;
+    //}
+    //T_reaction += ((F.y * radius) - cc.Tdrive);
+
+    //float bearingFrictionTorque = -0.1f * omega;
+
+
+
+    //float vGround = Vector3.Dot(transform.forward, rb.GetPointVelocity(avgPoint));
+    //slipRatio = (vWheel - vGround) / Mathf.Abs(vGround);
+    //slipRatio = Mathf.Clamp(slipRatio, -2.5f, 2.5f);
+    if (type == Wheel.WheelType.FR) {
+        //Debug.Log("T_reaction" + T_reaction);
+        Debug.Log("T_drive: " + cc.Tdrive);
+        Debug.Log("V w:" + vWheel);
+        Debug.Log("V g:" + V.y);
+        Debug.Log("SR:" + kappa);
+        Debug.Log("Omega: " + omega);
+        Debug.Log("Fx: " + Fx);
+    }
+
+    //rb.AddForceAtPosition(tractionDir * (F_long + F.y), avgPoint);
+    //rb.AddForceAtPosition(sideDir * (F.x), avgPoint);
+}
+// Pacejka params (example starting values; you must tune)
+public float mu = 1.0f;            // surface friction coefficient
+public float B_long = 10.0f;
+public float C_long = 1.9f;
+public float E_long = 0.97f;
+
+public float B_lat = 8.0f;
+public float C_lat = 2.0f;
+public float E_lat = 1.0f;
+
+// small epsilon for stability
+const float EPS = 1e-4f;
+
+// Magic Formula core
+float Pacejka(float B, float C, float D, float E, float x) {
+    // MF(x) = D * sin( C * atan( B*x - E*(B*x - atan(B*x)) ) )
+    float bx = B * x;
+    float a = Mathf.Atan(bx);
+    float inner = bx - E * (bx - a);
+    return D * Mathf.Sin(C * Mathf.Atan(inner));
+}
+
+// compute longitudinal force (positive forwards)
+public float GetLongitudinalForce(float kappa, float Fz) {
+    float D = mu * Fz; // peak proportional to normal load
+    float Fx0 = Pacejka(B_long, C_long, D, E_long, kappa);
+    return Fx0;
+}
+
+// compute lateral force (positive to the left of forward vector)
+public float GetLateralForce(float alphaRad, float Fz) {
+    float D = mu * Fz;
+    float Fy0 = Pacejka(B_lat, C_lat, D, E_lat, alphaRad);
+    return Fy0;
+}
+
+public double pacejkaFx(double[] b, double Fz, double slipRatio) {  //Fz is load
+    double C = b[0];
+    double D = (b[1] * Fz + b[2]) * Fz;
+    double B = ((b[3] * Math.Pow(Fz, 2) + b[4] * Fz) * Math.Exp(-b[5] * Fz)) / (C * D);
+    double E = b[6] * Math.Pow(Fz, 2) + b[7] * Fz + b[8];
+    double Sh = b[9] * Fz + b[10];
+    double Sv = 0;
+
+    double Fx = D * Math.Sin(C * Math.Atan(B * (1 - E) * (slipRatio + Sh) + E * Math.Atan(B * (slipRatio + Sh)))) + Sv;
+    return Fx;
+}
+    */
 }

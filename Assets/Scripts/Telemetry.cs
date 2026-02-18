@@ -79,7 +79,7 @@ public class Telemetry : MonoBehaviour {
         GUILayout.EndArea();
     }
     private void showWheelLabel(Wheel wheel, GUIStyle style) {
-        float wheelRpm = (wheel.V.y / wheel.radius) * (60 / (2 * Mathf.PI));
+        float wheelRpm = cc.rpm;//(wheel.V.y / wheel.radius) * (60 / (2 * Mathf.PI));
         float Fs = wheel.s.suspensionForce;
         Vector2 S = Vector2.zero;
         Vector2 F = wheel.F;
