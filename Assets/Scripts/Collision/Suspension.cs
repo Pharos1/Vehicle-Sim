@@ -28,14 +28,8 @@ public class Suspension : MonoBehaviour {
 
 	[ReadOnly] [HideInInspector] public float suspensionForce;
 
-	[HideInInspector] public float signedSpeed;
-
-
 	[HideInInspector] public float sWs; //Static Weight on Suspension
 	[HideInInspector] public float Ws; //Static Weight on Suspension
-	
-	SolutionVector state;
-	public float tau = 1;
 
 	void Start() {
 		w.s = this;
@@ -49,21 +43,12 @@ public class Suspension : MonoBehaviour {
 		minLength = restLength - springTravel;
 		maxLength = restLength + springTravel;
 	}
-	private void Update() {
-		w.steer();
-	}
 	void FixedUpdate() {
 		minLength = restLength - springTravel;
 		maxLength = restLength + springTravel;
 
-		signedSpeed = Vector3.Dot(w.tractionDir, rb.GetPointVelocity(w.hit.point).normalized) * rb.GetPointVelocity(w.hit.point).magnitude;
+		//signedSpeed = Vector3.Dot(w.tractionDir, rb.GetPointVelocity(w.hit.point).normalized) * rb.GetPointVelocity(w.hit.point).magnitude;
 
-		float accel = (Vector3.Dot(w.tractionDir, rb.GetAccumulatedForce()) / rb.mass);
-		cc.calculateWeightDistribution(accel);
-
-		sWs = w.type == Wheel.WheelType.FL || w.type == Wheel.WheelType.FR ? cc.sWf / 2f : cc.sWr / 2f;
-		Ws = w.type == Wheel.WheelType.FL || w.type == Wheel.WheelType.FR ? cc.Wf / 2f : cc.Wr / 2f;
-		
 		w.collision();
 		suspension();
 		w.calcAndApplyForces();
@@ -79,8 +64,6 @@ public class Suspension : MonoBehaviour {
 
 		Gizmos.color = Color.green;
 		Gizmos.DrawLine(transform.position, transform.position + transform.up * -springLength);
-		//s.zmos.color = Color.red;
-		//Gizmos.DrawWireSphere(transform.position + transform.up * -springLength, radius);
 	}
 	private void suspension() { //Based on h4tt3n's math https://www.gamedev.net/tutorials/programming/math-and-physics/towards-a-simpler-stiffer-and-more-stable-spring-r3227/
 		if (!w.isGrounded) return;
@@ -117,38 +100,5 @@ public class Suspension : MonoBehaviour {
 		Vector3 backForce = (w.avgNormal - transform.up) * suspensionForce;
 		backForce = Vector3.Dot(transform.forward, backForce) * transform.forward;
 		//rb.AddForceAtPosition(backForce, transform.position);
-	}
-	private void calcDerivatives(SolutionVector x0, out SolutionVector dxdt) {
-		dxdt = new SolutionVector();
-		dxdt.sLength = (springLength - lastLength) / Time.fixedDeltaTime;
-
-	}
-	private void integrateRK4(float deltaTime) {
-		SolutionVector k1, k2, k3, k4;
-		SolutionVector x;
-
-
-
-
-
-
-
-
-		// Runge-Kutta 4 integration     
-		calcDerivatives(state, out k1);
-		x = state;
-		x.add(k1, 0.5f * deltaTime);
-		calcDerivatives(x, out k2);
-		x = state;
-		x.add(k2, 0.5f * deltaTime);
-		calcDerivatives(x, out k3);
-		x = state;
-		x.add(k3, deltaTime);
-		calcDerivatives(x, out k4);
-
-		state.add(k1, deltaTime / 6.0f);
-		state.add(k2, deltaTime / 3.0f);
-		state.add(k3, deltaTime / 3.0f);
-		state.add(k4, deltaTime / 6.0f);
 	}
 }

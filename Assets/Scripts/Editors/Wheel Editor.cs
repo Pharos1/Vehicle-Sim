@@ -24,7 +24,7 @@ public class WheelEditor : Editor {
             EditorGUILayout.PropertyField(so.FindProperty("type"), new GUIContent("Wheel Type"));
             EditorGUILayout.PropertyField(so.FindProperty("isWheelPowering"), new GUIContent("Is Wheel Powering?"));
             EditorGUILayout.PropertyField(so.FindProperty("isWheelBraking"), new GUIContent("Is Wheel Braking?"));
-            EditorGUILayout.PropertyField(so.FindProperty("Cbraking"), new GUIContent("Braking Coeff"));
+            EditorGUILayout.PropertyField(so.FindProperty("MaxTbraking"), new GUIContent("Max Braking Torque"));
 		}
 
         collisionList = so.FindProperty("collisionList");

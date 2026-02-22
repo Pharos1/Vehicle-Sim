@@ -123,6 +123,41 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &46189979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 46189980}
+  m_Layer: 6
+  m_Name: Model
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &46189980
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46189979}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 337488480696886124}
+  - {fileID: 5869042888479792957}
+  - {fileID: 6632881407473125745}
+  - {fileID: 6264635281573664517}
+  m_Father: {fileID: 4025296138705923374}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &67737765
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,10 +637,8 @@ MonoBehaviour:
   maxLength: 0
   springLength: 0.2
   suspensionForce: 0
-  signedSpeed: 0
   sWs: 0
   Ws: 0
-  tau: 1
 --- !u!1 &502658199
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,10 +891,8 @@ MonoBehaviour:
   maxLength: 0
   springLength: 0.2
   suspensionForce: 0
-  signedSpeed: 0
   sWs: 0
   Ws: 0
-  tau: 1
 --- !u!1 &570337639
 GameObject:
   m_ObjectHideFlags: 0
@@ -1893,10 +1924,8 @@ MonoBehaviour:
   maxLength: 0
   springLength: 0.2
   suspensionForce: 0
-  signedSpeed: 0
   sWs: 0
   Ws: 0
-  tau: 1
 --- !u!1 &922337377
 GameObject:
   m_ObjectHideFlags: 0
@@ -2058,10 +2087,8 @@ MonoBehaviour:
   maxLength: 0
   springLength: 0.2
   suspensionForce: 0
-  signedSpeed: 0
   sWs: 0
   Ws: 0
-  tau: 1
 --- !u!1 &939969322
 GameObject:
   m_ObjectHideFlags: 0
@@ -2242,10 +2269,8 @@ MonoBehaviour:
   maxLength: 0
   springLength: 0.2
   suspensionForce: 0
-  signedSpeed: 0
   sWs: 0
   Ws: 0
-  tau: 1
 --- !u!1 &1086963643
 GameObject:
   m_ObjectHideFlags: 0
@@ -2407,10 +2432,43 @@ MonoBehaviour:
   maxLength: 0
   springLength: 0.2
   suspensionForce: 0
-  signedSpeed: 0
   sWs: 0
   Ws: 0
-  tau: 1
+--- !u!1 &1170649674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1170649675}
+  m_Layer: 6
+  m_Name: Model
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1170649675
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170649674}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 292458712416789105}
+  - {fileID: 6375808904999632339}
+  - {fileID: 3391908989489010751}
+  - {fileID: 205555494854303988}
+  m_Father: {fileID: 6600420384056348061}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1222669916
 GameObject:
   m_ObjectHideFlags: 0
@@ -3160,10 +3218,8 @@ MonoBehaviour:
   maxLength: 0
   springLength: 0.2
   suspensionForce: 0
-  signedSpeed: 0
   sWs: 0
   Ws: 0
-  tau: 1
 --- !u!1 &1579836769
 GameObject:
   m_ObjectHideFlags: 0
@@ -3359,10 +3415,8 @@ MonoBehaviour:
   maxLength: 0
   springLength: 0.2
   suspensionForce: 0
-  signedSpeed: 0
   sWs: 0
   Ws: 0
-  tau: 1
 --- !u!1 &1671448831
 GameObject:
   m_ObjectHideFlags: 0
@@ -3469,6 +3523,41 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671448831}
   m_Mesh: {fileID: 2901204626697698887, guid: fb087b4afbd72a54483f2a1108fca4d5, type: 3}
+--- !u!1 &1700315465
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1700315466}
+  m_Layer: 6
+  m_Name: Model
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1700315466
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700315465}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4293885728796853017}
+  - {fileID: 8133849237753247138}
+  - {fileID: 7820397721721625769}
+  - {fileID: 1336965601802692019}
+  m_Father: {fileID: 5762198181142433564}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1783264464
 GameObject:
   m_ObjectHideFlags: 0
@@ -3630,10 +3719,8 @@ MonoBehaviour:
   maxLength: 0
   springLength: 0.2
   suspensionForce: 0
-  signedSpeed: 0
   sWs: 0
   Ws: 0
-  tau: 1
 --- !u!1 &1835504110
 GameObject:
   m_ObjectHideFlags: 0
@@ -3689,10 +3776,8 @@ MonoBehaviour:
   maxLength: 0
   springLength: 0.2
   suspensionForce: 0
-  signedSpeed: 0
   sWs: 0
   Ws: 0
-  tau: 1
 --- !u!1 &1850814053
 GameObject:
   m_ObjectHideFlags: 0
@@ -4207,6 +4292,41 @@ Transform:
   - {fileID: 3383332111446953966}
   m_Father: {fileID: 1435677290003199910}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1949451763
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1949451764}
+  m_Layer: 6
+  m_Name: Model
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1949451764
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949451763}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3426206304323182101}
+  - {fileID: 6738283298451741392}
+  - {fileID: 2056554914018905187}
+  - {fileID: 6209512411261253355}
+  m_Father: {fileID: 241971056532616217}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2070998767
 GameObject:
   m_ObjectHideFlags: 0
@@ -4262,10 +4382,8 @@ MonoBehaviour:
   maxLength: 0
   springLength: 0.2
   suspensionForce: 0
-  signedSpeed: 0
   sWs: 0
   Ws: 0
-  tau: 1
 --- !u!1 &2095008893
 GameObject:
   m_ObjectHideFlags: 0
@@ -4321,10 +4439,8 @@ MonoBehaviour:
   maxLength: 0
   springLength: 0.2
   suspensionForce: 0
-  signedSpeed: 0
   sWs: 0
   Ws: 0
-  tau: 1
 --- !u!1 &2105323604
 GameObject:
   m_ObjectHideFlags: 0
@@ -5849,12 +5965,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6197488382955479384}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6600420384056348061}
+  m_Father: {fileID: 1170649675}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &206426691335800114
 GameObject:
@@ -6104,10 +6220,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3426206304323182101}
-  - {fileID: 6738283298451741392}
-  - {fileID: 2056554914018905187}
-  - {fileID: 6209512411261253355}
+  - {fileID: 1949451764}
   m_Father: {fileID: 6040891564215259098}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &243546742837774491
@@ -6434,12 +6547,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4906567743647015029}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6600420384056348061}
+  m_Father: {fileID: 1170649675}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &295838105391589342
 MeshRenderer:
@@ -6834,12 +6947,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8404762765211869971}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4025296138705923374}
+  m_Father: {fileID: 46189980}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &339644714251526191
 Transform:
@@ -7219,7 +7332,6 @@ MonoBehaviour:
   car: {fileID: 2858591627778620887}
   s: {fileID: 1783969994}
   steerTime: 8
-  steerAngle: 0
   radius: 0.325
   width: 0.2921
   configList: 0
@@ -7239,7 +7351,6 @@ MonoBehaviour:
   Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -7248,13 +7359,9 @@ MonoBehaviour:
   penetrationAmount: 0.05
   avgNormal: {x: 0, y: 0, z: 0}
   avgPoint: {x: 0, y: 0, z: 0}
-  mu: 1
-  B_long: 10
-  C_long: 1.9
-  E_long: 0.97
-  B_lat: 8
-  C_lat: 2
-  E_lat: 1
+  omega: 0
+  wheelRotationAngle: 0
+  internalDampCoeff: 0.25
 --- !u!4 &418188358342838822
 Transform:
   m_ObjectHideFlags: 0
@@ -11810,7 +11917,6 @@ MonoBehaviour:
   car: {fileID: 6040891564215259098}
   s: {fileID: 1835504112}
   steerTime: 8
-  steerAngle: 0
   radius: 0.325
   width: 0.2921
   configList: 0
@@ -11830,7 +11936,6 @@ MonoBehaviour:
   Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -11839,13 +11944,9 @@ MonoBehaviour:
   penetrationAmount: 0.05
   avgNormal: {x: 0, y: 0, z: 0}
   avgPoint: {x: 0, y: 0, z: 0}
-  mu: 1
-  B_long: 10
-  C_long: 1.9
-  E_long: 0.97
-  B_lat: 8
-  C_lat: 2
-  E_lat: 1
+  omega: 0
+  wheelRotationAngle: 0
+  internalDampCoeff: 0.25
 --- !u!4 &1274346114739108717
 Transform:
   m_ObjectHideFlags: 0
@@ -12303,12 +12404,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8404531263340003638}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5762198181142433564}
+  m_Father: {fileID: 1700315466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1338987873329084711
 MeshRenderer:
@@ -12750,7 +12851,6 @@ MonoBehaviour:
   car: {fileID: 2858591627778620887}
   s: {fileID: 1055655722}
   steerTime: 8
-  steerAngle: 0
   radius: 0.355
   width: 0.3302
   configList: 0
@@ -12770,7 +12870,6 @@ MonoBehaviour:
   Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -12779,13 +12878,9 @@ MonoBehaviour:
   penetrationAmount: 0.05
   avgNormal: {x: 0, y: 0, z: 0}
   avgPoint: {x: 0, y: 0, z: 0}
-  mu: 1
-  B_long: 10
-  C_long: 1.9
-  E_long: 0.97
-  B_lat: 8
-  C_lat: 2
-  E_lat: 1
+  omega: 0
+  wheelRotationAngle: 0
+  internalDampCoeff: 0.25
 --- !u!4 &1436819022653466139
 Transform:
   m_ObjectHideFlags: 0
@@ -16894,12 +16989,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3206024552923804043}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 241971056532616217}
+  m_Father: {fileID: 1949451764}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &2057823840605819135
 MeshRenderer:
@@ -22376,6 +22471,8 @@ MonoBehaviour:
   - {fileID: 8502045968555562120}
   - {fileID: 1435677290003199911}
   - {fileID: 7833798221840451437}
+  suspensions: []
+  numOfDriveWheels: 0
   kerbWeight: 1460
   wheelBase: 2.654
   rearTrack: 1.575
@@ -22385,11 +22482,7 @@ MonoBehaviour:
   frontalArea: 1.67
   airDensity: 1.225
   Fdrag: {x: 0, y: 0, z: 0}
-  sWf: 0
-  sWr: 0
-  Wf: 0
-  Wr: 0
-  numOfDriveWheels: 0
+  Tengine: 0
   curGear: 1
   transmissionList: 0
   gearRatios:
@@ -26298,12 +26391,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5155975850038830320}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6600420384056348061}
+  m_Father: {fileID: 1170649675}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &3392543583226943129
 Transform:
@@ -26570,12 +26663,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 25263708954635224}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 241971056532616217}
+  m_Father: {fileID: 1949451764}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3426839772407384146
 GameObject:
@@ -30579,10 +30672,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 337488480696886124}
-  - {fileID: 5869042888479792957}
-  - {fileID: 6632881407473125745}
-  - {fileID: 6264635281573664517}
+  - {fileID: 46189980}
   m_Father: {fileID: 6040891564215259098}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4025296138705923375
@@ -30600,7 +30690,6 @@ MonoBehaviour:
   car: {fileID: 6040891564215259098}
   s: {fileID: 875899529}
   steerTime: 8
-  steerAngle: 0
   radius: 0.355
   width: 0.3302
   configList: 0
@@ -30620,7 +30709,6 @@ MonoBehaviour:
   Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -30629,13 +30717,9 @@ MonoBehaviour:
   penetrationAmount: 0.05
   avgNormal: {x: 0, y: 0, z: 0}
   avgPoint: {x: 0, y: 0, z: 0}
-  mu: 1
-  B_long: 10
-  C_long: 1.9
-  E_long: 0.97
-  B_lat: 8
-  C_lat: 2
-  E_lat: 1
+  omega: 0
+  wheelRotationAngle: 0
+  internalDampCoeff: 0.25
 --- !u!33 &4025981620782303198
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -32142,12 +32226,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8282239032399740365}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5762198181142433564}
+  m_Father: {fileID: 1700315466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &4293935253803416856
 MeshRenderer:
@@ -32774,7 +32858,6 @@ MonoBehaviour:
   car: {fileID: 2858591627778620887}
   s: {fileID: 932720233}
   steerTime: 8
-  steerAngle: 0
   radius: 0.355
   width: 0.3302
   configList: 0
@@ -32794,7 +32877,6 @@ MonoBehaviour:
   Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -32803,13 +32885,9 @@ MonoBehaviour:
   penetrationAmount: 0.05
   avgNormal: {x: 0, y: 0, z: 0}
   avgPoint: {x: 0, y: 0, z: 0}
-  mu: 1
-  B_long: 10
-  C_long: 1.9
-  E_long: 0.97
-  B_lat: 8
-  C_lat: 2
-  E_lat: 1
+  omega: 0
+  wheelRotationAngle: 0
+  internalDampCoeff: 0.25
 --- !u!1 &4420019136862720188
 GameObject:
   m_ObjectHideFlags: 0
@@ -41229,7 +41307,6 @@ MonoBehaviour:
   car: {fileID: 2858591627778620887}
   s: {fileID: 1783969994}
   steerTime: 8
-  steerAngle: 0
   radius: 0.325
   width: 0.2921
   configList: 0
@@ -41249,7 +41326,6 @@ MonoBehaviour:
   Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -41258,13 +41334,9 @@ MonoBehaviour:
   penetrationAmount: 0.05
   avgNormal: {x: 0, y: 0, z: 0}
   avgPoint: {x: 0, y: 0, z: 0}
-  mu: 1
-  B_long: 10
-  C_long: 1.9
-  E_long: 0.97
-  B_lat: 8
-  C_lat: 2
-  E_lat: 1
+  omega: 0
+  wheelRotationAngle: 0
+  internalDampCoeff: 0.25
 --- !u!4 &5762198181142433564
 Transform:
   m_ObjectHideFlags: 0
@@ -41278,10 +41350,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4293885728796853017}
-  - {fileID: 8133849237753247138}
-  - {fileID: 7820397721721625769}
-  - {fileID: 1336965601802692019}
+  - {fileID: 1700315466}
   m_Father: {fileID: 6040891564215259098}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5762198181142433565
@@ -41299,7 +41368,6 @@ MonoBehaviour:
   car: {fileID: 6040891564215259098}
   s: {fileID: 2070998769}
   steerTime: 8
-  steerAngle: 0
   radius: 0.325
   width: 0.2921
   configList: 0
@@ -41319,7 +41387,6 @@ MonoBehaviour:
   Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -41328,13 +41395,9 @@ MonoBehaviour:
   penetrationAmount: 0.05
   avgNormal: {x: 0, y: 0, z: 0}
   avgPoint: {x: 0, y: 0, z: 0}
-  mu: 1
-  B_long: 10
-  C_long: 1.9
-  E_long: 0.97
-  B_lat: 8
-  C_lat: 2
-  E_lat: 1
+  omega: 0
+  wheelRotationAngle: 0
+  internalDampCoeff: 0.25
 --- !u!23 &5763247133849997137
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41979,12 +42042,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7885135151837941747}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4025296138705923374}
+  m_Father: {fileID: 46189980}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5869110062889706622
 MeshFilter:
@@ -43013,6 +43076,8 @@ MonoBehaviour:
   - {fileID: 1258029355259584663}
   - {fileID: 4025296138705923375}
   - {fileID: 8183755998010119369}
+  suspensions: []
+  numOfDriveWheels: 0
   kerbWeight: 1460
   wheelBase: 2.654
   rearTrack: 1.575
@@ -43022,11 +43087,7 @@ MonoBehaviour:
   frontalArea: 1.67
   airDensity: 1.225
   Fdrag: {x: 0, y: 0, z: 0}
-  sWf: 0
-  sWr: 0
-  Wf: 0
-  Wr: 0
-  numOfDriveWheels: 0
+  Tengine: 0
   curGear: 1
   transmissionList: 0
   gearRatios:
@@ -44265,12 +44326,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6231246205614534621}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 241971056532616217}
+  m_Father: {fileID: 1949451764}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6212422566087319269
 MeshFilter:
@@ -44561,12 +44622,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2145655491805231782}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4025296138705923374}
+  m_Father: {fileID: 46189980}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &6267608768061811525
 Transform:
@@ -45313,12 +45374,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8907210574909997493}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6600420384056348061}
+  m_Father: {fileID: 1170649675}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6387796769856245664
 GameObject:
@@ -46554,10 +46615,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 292458712416789105}
-  - {fileID: 6375808904999632339}
-  - {fileID: 3391908989489010751}
-  - {fileID: 205555494854303988}
+  - {fileID: 1170649675}
   m_Father: {fileID: 6040891564215259098}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6604317268376929739
@@ -46850,12 +46908,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8370515286395231055}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4025296138705923374}
+  m_Father: {fileID: 46189980}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &6638138995300505098
 Transform:
@@ -47680,12 +47738,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7913114956163598558}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 241971056532616217}
+  m_Father: {fileID: 1949451764}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6738526965574592644
 GameObject:
@@ -49576,7 +49634,6 @@ MonoBehaviour:
   car: {fileID: 2858591627778620887}
   s: {fileID: 1055655722}
   steerTime: 8
-  steerAngle: 0
   radius: 0.355
   width: 0.3302
   configList: 0
@@ -49596,7 +49653,6 @@ MonoBehaviour:
   Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -49605,13 +49661,9 @@ MonoBehaviour:
   penetrationAmount: 0.05
   avgNormal: {x: 0, y: 0, z: 0}
   avgPoint: {x: 0, y: 0, z: 0}
-  mu: 1
-  B_long: 10
-  C_long: 1.9
-  E_long: 0.97
-  B_lat: 8
-  C_lat: 2
-  E_lat: 1
+  omega: 0
+  wheelRotationAngle: 0
+  internalDampCoeff: 0.25
 --- !u!1 &7082287304762422409
 GameObject:
   m_ObjectHideFlags: 0
@@ -51010,7 +51062,6 @@ MonoBehaviour:
   car: {fileID: 2858591627778620887}
   s: {fileID: 1100764251}
   steerTime: 8
-  steerAngle: 0
   radius: 0.325
   width: 0.2921
   configList: 0
@@ -51030,7 +51081,6 @@ MonoBehaviour:
   Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -51039,13 +51089,9 @@ MonoBehaviour:
   penetrationAmount: 0.05
   avgNormal: {x: 0, y: 0, z: 0}
   avgPoint: {x: 0, y: 0, z: 0}
-  mu: 1
-  B_long: 10
-  C_long: 1.9
-  E_long: 0.97
-  B_lat: 8
-  C_lat: 2
-  E_lat: 1
+  omega: 0
+  wheelRotationAngle: 0
+  internalDampCoeff: 0.25
 --- !u!23 &7326062865751228154
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -53784,12 +53830,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4696926777155457745}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5762198181142433564}
+  m_Father: {fileID: 1700315466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &7820469260301390018
 MeshRenderer:
@@ -53958,7 +54004,6 @@ MonoBehaviour:
   car: {fileID: 2858591627778620887}
   s: {fileID: 932720233}
   steerTime: 8
-  steerAngle: 0
   radius: 0.355
   width: 0.3302
   configList: 0
@@ -53978,7 +54023,6 @@ MonoBehaviour:
   Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -53987,13 +54031,9 @@ MonoBehaviour:
   penetrationAmount: 0.05
   avgNormal: {x: 0, y: 0, z: 0}
   avgPoint: {x: 0, y: 0, z: 0}
-  mu: 1
-  B_long: 10
-  C_long: 1.9
-  E_long: 0.97
-  B_lat: 8
-  C_lat: 2
-  E_lat: 1
+  omega: 0
+  wheelRotationAngle: 0
+  internalDampCoeff: 0.25
 --- !u!4 &7850860426960998566
 Transform:
   m_ObjectHideFlags: 0
@@ -55601,12 +55641,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7270553810374874472}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5762198181142433564}
+  m_Father: {fileID: 1700315466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &8137768073903221553
 Transform:
@@ -55810,7 +55850,6 @@ MonoBehaviour:
   car: {fileID: 6040891564215259098}
   s: {fileID: 527787767}
   steerTime: 8
-  steerAngle: 0
   radius: 0.355
   width: 0.3302
   configList: 0
@@ -55830,7 +55869,6 @@ MonoBehaviour:
   Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -55839,13 +55877,9 @@ MonoBehaviour:
   penetrationAmount: 0.05
   avgNormal: {x: 0, y: 0, z: 0}
   avgPoint: {x: 0, y: 0, z: 0}
-  mu: 1
-  B_long: 10
-  C_long: 1.9
-  E_long: 0.97
-  B_lat: 8
-  C_lat: 2
-  E_lat: 1
+  omega: 0
+  wheelRotationAngle: 0
+  internalDampCoeff: 0.25
 --- !u!4 &8188762737927560494
 Transform:
   m_ObjectHideFlags: 0
@@ -58177,7 +58211,6 @@ MonoBehaviour:
   car: {fileID: 2858591627778620887}
   s: {fileID: 1100764251}
   steerTime: 8
-  steerAngle: 0
   radius: 0.325
   width: 0.2921
   configList: 0
@@ -58197,7 +58230,6 @@ MonoBehaviour:
   Cs: 30
   tractionDir: {x: 0, y: 0, z: 0}
   sideDir: {x: 0, y: 0, z: 0}
-  vLong: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -58206,13 +58238,9 @@ MonoBehaviour:
   penetrationAmount: 0.05
   avgNormal: {x: 0, y: 0, z: 0}
   avgPoint: {x: 0, y: 0, z: 0}
-  mu: 1
-  B_long: 10
-  C_long: 1.9
-  E_long: 0.97
-  B_lat: 8
-  C_lat: 2
-  E_lat: 1
+  omega: 0
+  wheelRotationAngle: 0
+  internalDampCoeff: 0.25
 --- !u!1 &8503874830760418612
 GameObject:
   m_ObjectHideFlags: 0
@@ -58324,6 +58352,8 @@ MonoBehaviour:
   - {fileID: 7326008108852673246}
   - {fileID: 7081465785974594003}
   - {fileID: 4416187998928261816}
+  suspensions: []
+  numOfDriveWheels: 0
   kerbWeight: 1460
   wheelBase: 2.654
   rearTrack: 1.575
@@ -58333,11 +58363,7 @@ MonoBehaviour:
   frontalArea: 1.67
   airDensity: 1.225
   Fdrag: {x: 0, y: 0, z: 0}
-  sWf: 0
-  sWr: 0
-  Wf: 0
-  Wr: 0
-  numOfDriveWheels: 0
+  Tengine: 0
   curGear: 1
   transmissionList: 0
   gearRatios:

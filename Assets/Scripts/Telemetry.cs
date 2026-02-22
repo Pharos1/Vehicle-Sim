@@ -58,7 +58,7 @@ public class Telemetry : MonoBehaviour {
 
         GUILayout.Label("Telemetry" + " | \"" + hotkey.ToString() + "\" To Hide/Show", centeredStyle); GUILayout.Space(-5);
 
-        float speedMS = Mathf.Abs(cc.V.y);
+        float speedMS = Mathf.Abs(cc.V.x);
         float speedKMH = speedMS * 3.6f;
         float speedMPH = speedMS * 2.23694f;
 
@@ -80,12 +80,12 @@ public class Telemetry : MonoBehaviour {
     }
     private void showWheelLabel(Wheel wheel, GUIStyle style) {
         float wheelRpm = cc.rpm;//(wheel.V.y / wheel.radius) * (60 / (2 * Mathf.PI));
-        float Fs = wheel.s.suspensionForce;
+        float Fz = wheel.s.suspensionForce;
         Vector2 S = Vector2.zero;
         Vector2 F = wheel.F;
 
         if (wheel.isGrounded) {
-            GUILayout.Label($"Wheel{wheel.type}  : {wheelRpm,4:F0} rpm  Fs: {Fs,3:F0}  Sx: {S.x,2:F2}  Sy: {S.y,2:F2}  Fx: {F.x,6:F2}  Fy: {F.y,6:F2}", style);
+            GUILayout.Label($"Wheel{wheel.type}  : {wheelRpm,4:F0} rpm  Fz: {Fz,3:F0}  Sx: {S.x,2:F2}  Sy: {S.y,2:F2}  Fx: {F.x,6:F2}  Fy: {F.y,6:F2}", style);
         }
         else {
             GUILayout.Label($"Wheel{wheel.type}  : {wheelRpm,4:F0} rpm  --", style);
