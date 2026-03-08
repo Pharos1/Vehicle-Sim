@@ -79,8 +79,6 @@ public class Wheel : MonoBehaviour {
 	[HideInInspector] public float omega = 0;
 	[HideInInspector] public float wheelRotationAngle = 0;
 
-	public float internalDampCoeff = .25f;
-
 
 	private void Start() {
 		rb = car.GetComponent<Rigidbody>();
@@ -94,7 +92,7 @@ public class Wheel : MonoBehaviour {
 		if (!float.IsNaN(V.x)) {
 			rotationPitch = wheelRotationAngle * Mathf.Rad2Deg;//Mathf.Rad2Deg * omega * Time.deltaTime;
 
-			rotationPitch = Mathf.Repeat(rotationPitch, 360f);
+			//rotationPitch = Mathf.Repeat(rotationPitch, 360f);
 
 
 			//TODO: I dont like all of this code, it's kinda based on guess & try but it seems to work
@@ -194,13 +192,11 @@ public class Wheel : MonoBehaviour {
 		}
 	}
 
-	float oldKappa = 0;
-	//float kappa = 0;
-	float kappaDiff = 0;
-
+	public Vector2 L = new Vector2(.1f, 0.5f); //Relaxation lengths
+	private float transientKappa = 0f;
+	private float transientAlpha = 0f;
 	public void calcAndApplyForces() {
 		F = Vector2.zero;
-
 
 		tractionDir = Vector3.Cross(avgNormal, -s.transform.right).normalized;//Quaternion.AngleAxis(90, transform.right) * contact.Value.normal;
 		sideDir = Vector3.Cross(avgNormal, s.transform.forward).normalized;
@@ -210,6 +206,9 @@ public class Wheel : MonoBehaviour {
 		Vector3 velocityLocal = transform.InverseTransformDirection(velocityWorld);
 		V.x = velocityLocal.z;
 		V.y = velocityLocal.x;
+
+		float V_low = .1f;
+		float clampedVx = Mathf.Max(Mathf.Abs(V.x), V_low);
 
 		//Debug.DrawRay(transform.position - s.transform.up * (radius - penetrationAmount), tractionDir, Color.red);
 		//Debug.DrawRay(transform.position - s.transform.up * (radius - penetrationAmount), sideDir, Color.magenta);
@@ -241,16 +240,15 @@ public class Wheel : MonoBehaviour {
 				Tbraking *= Mathf.Sqrt(Mathf.Abs(V.x));
 		}
 		
-		//TODO: I need to make it so only the powering gears should be accounted for
+		//TODO: I need to make it so only the powering wheels should be accounted for
 
 		float G = cc.gearRatios[cc.curGear] * cc.diffRatio; //Total Gear Ratio TODO: should see if gear eff should be accounted for
-		float V_low = .2f;
 		float Fz = Mathf.Max(0, s.suspensionForce) / 1000; //kN
 
 		//-Dampening/Friction
 		float C_wheel = .3f; // Nm * s / rad
 		const float engineDragOnThrottle = 0.08f;
-		const float engineDragNoThrottle = 0.15f;
+		const float engineDragNoThrottle = 0.08f;
 		float C_engine = Mathf.Lerp(engineDragNoThrottle, engineDragOnThrottle, Mathf.Abs(Input.GetAxis("Vertical")));//TODO: Can be more fine tuned, currently the values are garabage
 		float C_eff = C_wheel + (C_engine * Mathf.Pow(G, 2));
 
@@ -266,47 +264,99 @@ public class Wheel : MonoBehaviour {
 		float I_engine = .32f;
 		float I_eff = I_wheel + (I_engine * Mathf.Pow(G, 2));
 
-
 		//Pacejka Prep
-		float netTorque = T_engineToWheel - T_brake - T_feedback - T_axle - Frr * radius;//T_engine * G + T_brake - T_mf - C_eff;
-		float angularAccel = netTorque / I_eff;
-
-		omega += angularAccel * Time.fixedDeltaTime;
-		wheelRotationAngle += omega * Time.fixedDeltaTime; //In rad
+		float T_net = T_engineToWheel - T_brake - T_feedback - T_axle - Frr * radius;//T_engine * G + T_brake - T_mf - C_eff;
 		
+		Vector3 localTractionDir = transform.InverseTransformDirection(tractionDir);
+		float forwardForce = s.suspensionForce * tractionDir.y * 10;
+		//T_net += forwardForce * radius;
+		//rb.AddForce(-forwardForce * tractionDir);
+		if (type == WheelType.FL || type == WheelType.FR) DD.DisplayFloat(forwardForce);
+		float angularAccel = T_net / I_eff;
+
+		//Omega
+		RK4.Derivative omegaODE = (t, currentOmega) => angularAccel;
+		omega = RK4.Integrate(omegaODE, Time.time, omega, Time.fixedDeltaTime);
+
+		//DD.DisplayFloat(T_net);
+
+		float torqueToStop = T_net / (Time.fixedDeltaTime / 3f);
+		if (T_brake > torqueToStop && T_brake > 0) {
+			omega = 0;
+			//T_net = 0;
+		}
+
+		//DD.DisplayFloat(torqueToStop);
+		//DD.DisplayFloat(T_brake);
+
+		RK4.Derivative angleODE = (t, currentAngle) => omega;
+		wheelRotationAngle = RK4.Integrate(angleODE, Time.time, wheelRotationAngle, Time.fixedDeltaTime); //In Rad
+		wheelRotationAngle %= (2f * Mathf.PI); //Keep angle at sane ranges to avoid floating point errors
+
 		//Quick fix TODO
 		float threshold = 1f;
 		if (isWheelBraking && Input.GetKey(KeyCode.Space) && Mathf.Abs(omega) < threshold) {
-			omega = 0;
+			//omega = 0;
 		}
+		//RK4 Relaxation Length
+		float kappa = ((radius * omega - V.x) / clampedVx); // MF Expects percentages.
+		float alpha = Mathf.Rad2Deg * -Mathf.Atan2(V.y, clampedVx);
+		float gamma = 0; //TODO: Camber is zero, could be changed // Degrees
+		
+		
+		RK4.Derivative kappaODE = (t, currentTransientKappa) => {
+			float absU = Mathf.Abs(V.x);
+			float signU = (V.x > 0.01f) ? 1.0f : (V.x < -0.01f ? -1.0f : 0.0f);
+			//return V.x * () / L.x;
+			//return (Mathf.Abs(V.x) / L.x) * (kappa - currentTransientKappa);
+			//return (Mathf.Abs(V.x) + radius*omega * Mathf.Sign(V.x) + Mathf.Abs(V.x) * (kappa - currentTransientKappa)) / L.y;
+			//return ((radius * omega - V.x) - (V.x * currentTransientKappa)) / L.x;
+			//return (absU - (radius * omega * signU) - (absU * currentTransientKappa)) / L.x;
+			return (kappa - currentTransientKappa) / L.x;
+
+		};
+		RK4.Derivative alphaODE = (t, currentTransientAlpha) => {
+			//return Mathf.Abs(V.x) * (alpha - currentTransientAlpha) / L.y;
+
+			return (Mathf.Abs(V.x) / L.y) * (alpha - currentTransientAlpha);
+		};
+
+		transientKappa = kappa;// RK4.Integrate(kappaODE, Time.time, transientKappa, Time.fixedDeltaTime);
+		//if (transientKappa > 0f) {
+		//	kappa = transientKappa;
+		//}
+		transientAlpha = alpha;//RK4.Integrate(alphaODE, Time.time, transientAlpha, Time.fixedDeltaTime);
+
+		
 
 		//Slips
-		float kappa = ((radius * omega - V.x) / Mathf.Max(V_low, Mathf.Abs(V.x))) * 100; // MF Expects percentages.
-		float alpha = Mathf.Rad2Deg * -Mathf.Atan2(V.y, Mathf.Max(V_low, Mathf.Abs(V.x))); // Degrees
-		float gamma = 0; //TODO: Camber is zero, could be changed // Degrees
-
-		float sigma_peak = 8f; //Percent
+		float kappa_peak = .08f; //Percent
 		float alpha_peak = 3.2f; //Deg
-		float sigma_norm = kappa / sigma_peak; 
-		float alpha_norm = alpha / alpha_peak;
+		float kappa_norm = transientKappa / kappa_peak;
+		float alpha_norm = transientAlpha / alpha_peak;
 
-		float S_a = Mathf.Sqrt(Mathf.Pow(sigma_norm, 2) + Mathf.Pow(alpha_norm, 2));
+		float S_a = Mathf.Sqrt(Mathf.Pow(kappa_norm, 2) + Mathf.Pow(alpha_norm, 2));
 
-		//Debug.Log(V + " | alpha: " + alpha + " | kappa: " + kappa + " | EffKappa: " + kappaEff + " | omega: " + omega);
+
+		//Debug.Log(V + " | alpha: " + alpha + " | kappa: " + kappa + " | omega: " + omega);
 		float[] b = new float[] { 1.5f, 0f, 1100, 0, 300, 0, 0, 0, -2, 0, 0, 0, 0, 0 };
 		float[] a = new float[] { 1.4f, 0, 1100, 1100, 10, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		
-		//TODO: Maybe self aligning force Mz
-		F.x = PacejkaFx(Fz, S_a * sigma_peak, b) * (sigma_norm / S_a);
-		F.y = PacejkaFy(Fz, S_a * alpha_peak, gamma, a) * (alpha_norm / S_a);
 
+		DD.DisplayFloat(kappa);
+		DD.DisplayFloat(transientKappa);
+
+		//TODO: Maybe self aligning force Mz
+		F.x = PacejkaFx(Fz, S_a * kappa_peak * 100, b) * kappa_norm / S_a;
+		F.y = PacejkaFy(Fz, S_a * alpha_peak, gamma, a) * (alpha_norm / S_a);
 		
+		//F.x -= forwardForce;
+
 		if (!isGrounded) {
 			F = Vector2.zero;
 		}
 
-		if (V.magnitude < 1) {
-			float lowSpeedScalar = Mathf.Sqrt(V.magnitude);
+		if (V.sqrMagnitude < 1f) {
+			float lowSpeedScalar = Mathf.Max(0.1f, Mathf.Sqrt(V.magnitude));
 			F *= lowSpeedScalar;
 		}
 
