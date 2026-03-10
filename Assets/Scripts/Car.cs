@@ -88,7 +88,7 @@ public class Car : MonoBehaviour {
 
 		//Air Resistance
 		Fdrag = -0.5f * dragCoeff * frontalArea * airDensity * (rb.velocity * rb.velocity.magnitude);
-		rb.AddForceAtPosition(Fdrag, rb.position); //TODO: apply drag to the Center of Pressure aka aerodynamic center
+		//rb.AddForceAtPosition(Fdrag, rb.position); //TODO: apply drag to the Center of Pressure aka aerodynamic center
 
 		//Calc RPM TODO: This is somehow wrong, will have to check it out
 		//TODO I think rpm should be calculated by the avg of the powering wheels, currently it is hardcoded to be the front wheels
@@ -176,9 +176,9 @@ public class Car : MonoBehaviour {
 
 
 		//if (wheelL.isGrounded)
-			rb.AddForceAtPosition(wheelL.s.transform.up * -antiRollForce, wheelL.s.transform.position);
+			//rb.AddForceAtPosition(wheelL.s.transform.up * -antiRollForce, wheelL.s.transform.position);
 		//if (wheelR.isGrounded)
-			rb.AddForceAtPosition(wheelR.s.transform.up * antiRollForce, wheelR.s.transform.position);
+			//rb.AddForceAtPosition(wheelR.s.transform.up * antiRollForce, wheelR.s.transform.position);
 	}
 	private void OnDrawGizmos() {
 		if (debugCG) {
