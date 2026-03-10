@@ -14,6 +14,9 @@ public class Suspension : MonoBehaviour {
 	[HideInInspector] public bool suspensionList;
 	[HideInInspector] public float Ck = 0.2f;
 	[HideInInspector] public float Cd = 0.20f;
+	private float maxCk;
+	private float maxCd;
+
 
 	[HideInInspector] public float restLength;
 	[HideInInspector] public float springTravel;
@@ -24,7 +27,6 @@ public class Suspension : MonoBehaviour {
 	[ReadOnly] [HideInInspector] public float springLength;
 	[ReadOnly] private float springForce;
 	[ReadOnly] private float damperForce;
-	[ReadOnly] private float springVelocity;
 
 	[ReadOnly] [HideInInspector] public float suspensionForce;
 
@@ -42,6 +44,12 @@ public class Suspension : MonoBehaviour {
 
 		minLength = restLength - springTravel;
 		maxLength = restLength + springTravel;
+
+
+		float m1 = rb.mass / 4f;
+		maxCk = (m1 / (Time.fixedDeltaTime * Time.fixedDeltaTime)); //In N/m
+		maxCd = (m1 / Time.fixedDeltaTime); //In N * s / m
+
 	}
 	void FixedUpdate() {
 		minLength = restLength - springTravel;
@@ -68,37 +76,28 @@ public class Suspension : MonoBehaviour {
 	private void suspension() { //Based on h4tt3n's math https://www.gamedev.net/tutorials/programming/math-and-physics/towards-a-simpler-stiffer-and-more-stable-spring-r3227/
 		if (!w.isGrounded) return;
 
-		float m1 = rb.mass / 4f;
-
 		//Calculate suspension forces
 		lastLength = springLength;
 		springLength = w.hit.distance - w.centerHitDist; //When having one raycast centerHitDist = radius
+
 		//TODO: This I dont use as sometimes the wheel would enter the floor, when it the spring reaches its max compression it would  be more right to treat it as a stick that cant compress, but I cant seemm to figure out how to do such a thing
 		//springLength = Mathf.Clamp(springLength, minLength, maxLength);
-		springVelocity = (springLength - lastLength) / Time.fixedDeltaTime;
 
+		float springVelocity = (springLength - lastLength) / Time.fixedDeltaTime;
 		float displacement = springLength - restLength;
-		springForce = -(m1 / (Time.fixedDeltaTime * Time.fixedDeltaTime)) * Ck * displacement;
-		damperForce = -(m1 / Time.fixedDeltaTime) * Cd * springVelocity;
+
+		springForce = -maxCk * Ck * displacement;
+		damperForce = -maxCd * Cd * springVelocity;
 
 		suspensionForce = (springForce + damperForce);
 
-		//TODO: Experiment with this one here
-		//Vector3 z = transform.forward * Vector3.Dot(transform.forward, w.avgNormal);
-		//Vector3 y = transform.up * Vector3.Dot(transform.up, w.avgNormal);
-		//Vector3 x = transform.right * Vector3.Dot(transform.right, w.avgNormal);
+		Vector3 tractionDirLS = transform.InverseTransformDirection(w.tractionDir);
+		//rb.AddForceAtPosition(w.avgNormal *  Mathf.Max(0, suspensionForce), transform.position);
+		//DD.DisplayVector(tractionDirLS);
 
-		//Debug.DrawRay(w.hit.point, Vector3.Normalize(transform.position - w.avgPoint));
-		Vector3 dir = w.avgNormal - transform.right * Vector3.Dot(transform.right, w.avgNormal);// transform.forward * Vector3.Dot(transform.forward, w.avgNormal) + transform.up * Vector3.Dot(transform.up,w.avgNormal);
-		rb.AddForceAtPosition(dir * Mathf.Max(0, suspensionForce), transform.position);
+		Debug.DrawRay(w.avgPoint, w.avgNormal);
+		float Fg = -suspensionForce * w.tractionDir.y;
 
-		if (w.type == Wheel.WheelType.RL || w.type == Wheel.WheelType.RR) {
-			//rb.AddForceAtPosition(w.avgNormal * suspensionForce, transform.position);
-		}
-		//TODO: this should be corrected, like research more and find a more elegant way to solve it
-		//To fix force making car go forward/backward depending on rotation of car body
-		Vector3 backForce = (w.avgNormal - transform.up) * suspensionForce;
-		backForce = Vector3.Dot(transform.forward, backForce) * transform.forward;
-		//rb.AddForceAtPosition(backForce, transform.position);
+		//rb.AddForceAtPosition(w.tractionDir * Fg, transform.position);
 	}
 }
