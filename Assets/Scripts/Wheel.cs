@@ -199,13 +199,16 @@ public class Wheel : MonoBehaviour {
 		F = Vector2.zero;
 
 		tractionDir = Vector3.Cross(avgNormal, -s.transform.right).normalized;//Quaternion.AngleAxis(90, transform.right) * contact.Value.normal;
-		sideDir = Vector3.Cross(avgNormal, s.transform.forward).normalized;
+		sideDir = Vector3.Cross(avgNormal, tractionDir).normalized;
 
 		//Vel calc
 		Vector3 velocityWorld = rb.GetPointVelocity(avgPoint);
 		Vector3 velocityLocal = transform.InverseTransformDirection(velocityWorld);
-		V.x = velocityLocal.z;
-		V.y = velocityLocal.x;
+		//V.x = velocityLocal.z;
+		//V.y = velocityLocal.x;
+
+		V.x = Vector3.Dot(velocityWorld, tractionDir);
+		V.y = Vector3.Dot(velocityWorld, sideDir);
 
 		float V_low = .1f;
 		float clampedVx = Mathf.Max(Mathf.Abs(V.x), V_low);
@@ -253,11 +256,18 @@ public class Wheel : MonoBehaviour {
 		float C_eff = C_wheel + (C_engine * Mathf.Pow(G, 2));
 
 		//Torques
+		Vector3 wheelAxleWorldPosition = s.transform.position - s.transform.up * s.springLength;
+		Vector3 leverArm = avgPoint - wheelAxleWorldPosition;
+		Vector3 surfaceTorqueVec = Vector3.Cross(leverArm, avgNormal * s.suspensionForce);
+
+		float R_eff = Vector3.Distance(wheelAxleWorldPosition, avgPoint);
+
 		float T_engine = cc.Tengine * Input.GetAxis("Vertical");
 		float T_engineToWheel = T_engine * G * cc.transmissionEfficiency;
 		float T_brake = Tbraking;
-		float T_feedback = F.x * radius;
+		float T_feedback = F.x * R_eff;
 		float T_axle = C_eff * omega; //Axle Damping Torque/Friction
+		float T_geometric = Vector3.Dot(surfaceTorqueVec, s.transform.right);
 
 		//Inertias TODO: Implement realistic axle torque damping coefficient with dampening ratios
 		float I_wheel = 2.35f;
@@ -266,12 +276,11 @@ public class Wheel : MonoBehaviour {
 
 		//Pacejka Prep
 		float T_net = T_engineToWheel - T_brake - T_feedback - T_axle - Frr * radius;//T_engine * G + T_brake - T_mf - C_eff;
+
 		
-		Vector3 localTractionDir = transform.InverseTransformDirection(tractionDir);
-		float forwardForce = s.suspensionForce * tractionDir.y * 10;
-		//T_net += forwardForce * radius;
-		//rb.AddForce(-forwardForce * tractionDir);
-		if (type == WheelType.FL || type == WheelType.FR) DD.DisplayFloat(forwardForce);
+		// 3. Add this to your net torque
+		T_net += T_geometric;
+
 		float angularAccel = T_net / I_eff;
 
 		//Omega
@@ -299,7 +308,7 @@ public class Wheel : MonoBehaviour {
 			//omega = 0;
 		}
 		//RK4 Relaxation Length
-		float kappa = ((radius * omega - V.x) / clampedVx); // MF Expects percentages.
+		float kappa = ((R_eff * omega - V.x) / clampedVx); // MF Expects percentages.
 		float alpha = Mathf.Rad2Deg * -Mathf.Atan2(V.y, clampedVx);
 		float gamma = 0; //TODO: Camber is zero, could be changed // Degrees
 		
@@ -343,14 +352,14 @@ public class Wheel : MonoBehaviour {
 		float[] a = new float[] { 1.4f, 0, 1100, 1100, 10, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 		DD.DisplayFloat(kappa);
-		DD.DisplayFloat(transientKappa);
+		//DD.DisplayFloat(transientKappa);
 
 		//TODO: Maybe self aligning force Mz
 		F.x = PacejkaFx(Fz, S_a * kappa_peak * 100, b) * kappa_norm / S_a;
 		F.y = PacejkaFy(Fz, S_a * alpha_peak, gamma, a) * (alpha_norm / S_a);
 		
-		//F.x -= forwardForce;
-
+		
+		//F.x += -s.suspensionForce * tractionDir.y;
 		if (!isGrounded) {
 			F = Vector2.zero;
 		}
@@ -360,8 +369,16 @@ public class Wheel : MonoBehaviour {
 			F *= lowSpeedScalar;
 		}
 
-		rb.AddForceAtPosition(F.x * tractionDir, avgPoint);
-		rb.AddForceAtPosition(F.y * sideDir, avgPoint);
+		Vector3 wheelRight = sideDir.normalized;
+		Vector3 forwardTangent = tractionDir.normalized;
+		Vector3 rightTangent = Vector3.Cross(avgNormal.normalized, forwardTangent);
+
+		if (S_a < 0.001f) {
+			F = Vector3.zero;
+		}
+		Vector3 totalForce = F.x * forwardTangent + F.y * rightTangent + s.suspensionForce * avgNormal;
+
+		rb.AddForceAtPosition(totalForce, avgPoint);
 	}
 	//TODO: aligning moment
 	float PacejkaFx(float Fz, float kappa, float[] b) {
