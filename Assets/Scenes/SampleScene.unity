@@ -885,11 +885,11 @@ MonoBehaviour:
   suspensionList: 0
   Ck: 0.15
   Cd: 0.2
-  restLength: 0.2
+  restLength: 0.4
   springTravel: 0.1
   minLength: 0
   maxLength: 0
-  springLength: 0.2
+  springLength: 0.4
   suspensionForce: 0
   sWs: 0
   Ws: 0
@@ -922,6 +922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6dce15b2c050a44ac372a82b94447a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showTelemetry: 0
   car: {fileID: 6040891564215259098}
   font: {fileID: 12800000, guid: 7d82be801cccf044ba631add602f0d2b, type: 3}
   pointFiltering: 1
@@ -1918,11 +1919,11 @@ MonoBehaviour:
   suspensionList: 0
   Ck: 0.15
   Cd: 0.2
-  restLength: 0.2
+  restLength: 0.4
   springTravel: 0.1
   minLength: 0
   maxLength: 0
-  springLength: 0.2
+  springLength: 0.4
   suspensionForce: 0
   sWs: 0
   Ws: 0
@@ -3814,11 +3815,11 @@ MonoBehaviour:
   suspensionList: 0
   Ck: 0.15
   Cd: 0.2
-  restLength: 0.2
+  restLength: 0.4
   springTravel: 0.1
   minLength: 0
   maxLength: 0
-  springLength: 0.2
+  springLength: 0.4
   suspensionForce: 0
   sWs: 0
   Ws: 0
@@ -4420,11 +4421,11 @@ MonoBehaviour:
   suspensionList: 0
   Ck: 0.15
   Cd: 0.2
-  restLength: 0.2
+  restLength: 0.4
   springTravel: 0.1
   minLength: 0
   maxLength: 0
-  springLength: 0.2
+  springLength: 0.4
   suspensionForce: 0
   sWs: 0
   Ws: 0
@@ -43125,7 +43126,7 @@ MonoBehaviour:
   kerbWeight: 1460
   wheelBase: 2.654
   rearTrack: 1.575
-  turnRadius: 11.7
+  turnRadius: 5
   physicsList: 0
   dragCoeff: 0.29
   frontalArea: 1.67
