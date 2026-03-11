@@ -55,11 +55,9 @@ public class Suspension : MonoBehaviour {
 		minLength = restLength - springTravel;
 		maxLength = restLength + springTravel;
 
-		//signedSpeed = Vector3.Dot(w.tractionDir, rb.GetPointVelocity(w.hit.point).normalized) * rb.GetPointVelocity(w.hit.point).magnitude;
-
 		patch.updateCollision();
 		suspension();
-		w.calcAndApplyForces();
+		w.updateDynamics();
 	}
 	private void OnDrawGizmos() {
 #if UNITY_EDITOR
@@ -92,14 +90,5 @@ public class Suspension : MonoBehaviour {
 		damperForce = -maxCd * Cd * springVelocity;
 
 		suspensionForce = (springForce + damperForce);
-
-		Vector3 tractionDirLS = transform.InverseTransformDirection(w.patch.tractionDir);
-		//rb.AddForceAtPosition(w.avgNormal *  Mathf.Max(0, suspensionForce), transform.position);
-		//DD.DisplayVector(tractionDirLS);
-
-		//Debug.DrawRay(patch.point, patch.normal);
-		float Fg = -suspensionForce * w.patch.tractionDir.y;
-
-		//rb.AddForceAtPosition(w.tractionDir * Fg, transform.position);
 	}
 }
