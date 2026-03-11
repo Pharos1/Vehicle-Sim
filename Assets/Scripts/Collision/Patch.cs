@@ -20,8 +20,8 @@ public class Patch : MonoBehaviour {
 	//Averages
 	[HideInInspector] public Vector3 point = Vector3.zero;
 	[HideInInspector] public Vector3 normal = Vector3.zero;
-	[HideInInspector] public Vector3 forwardDir = Vector3.zero;
-	[HideInInspector] public Vector3 rightDir = Vector3.zero;
+	[HideInInspector] public Vector3 tractionDir = Vector3.zero;
+	[HideInInspector] public Vector3 sideDir = Vector3.zero;
 
 	[Header("Collision")]
 	public List<RaycastHit> otherHits = new List<RaycastHit>();
@@ -90,33 +90,12 @@ public class Patch : MonoBehaviour {
 		}
 	}
 	public void updateCollision() {
-		//generate(out rays);
-		//centerHitDist = radius;
-		//
-		//
-		//DD.DisplayFloat(s.springLength);
-		//Vector3 origin = s.transform.position;
-		//if (Physics.Raycast(origin, -s.transform.up, out hit)) {
-		//	point = hit.point;
-		//	normal = hit.normal;
-		//	forwardDir = s.transform.forward;
-		//	rightDir = s.transform.right;
-		//
-		//	grounded = true;
-		//}
-		//else {
-		//	point = normal = forwardDir = rightDir = Vector3.zero;
-		//
-		//	grounded = false;
-		//}
-
-		//rays.Add(new Ray());
 		hit = new RaycastHit(); //Set dummy data as to not glitch anything
 		hit.point = s.transform.position - s.transform.up * (s.restLength + radius);
 		hit.distance = Vector3.Distance(s.transform.position, hit.point);
 		hit.normal = Vector3.zero;//transform.up;
 
-		point = normal = forwardDir = rightDir = Vector3.zero;
+		point = normal = tractionDir = sideDir = Vector3.zero;
 		otherHits.Clear();
 		grounded = false;
 		closestPointDist = radius;
@@ -140,8 +119,6 @@ public class Patch : MonoBehaviour {
 					closestPointDist = ray.centerToPointDist;
 					//hit.distance += penetrationAmount;
 
-					forwardDir = s.transform.forward;
-					rightDir = s.transform.right;
 					grounded = true;
 				}
 			}
@@ -161,5 +138,9 @@ public class Patch : MonoBehaviour {
 			point = s.transform.position - s.transform.up * (s.restLength + radius);
 			s.springLength = s.restLength;
 		}
+
+
+		tractionDir = Vector3.Cross(normal, -s.transform.right).normalized;
+		sideDir = Vector3.Cross(normal, tractionDir).normalized;
 	}
 }
