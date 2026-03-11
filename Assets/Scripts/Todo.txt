@@ -1,23 +1,11 @@
 -- High Priority To Do --
 
 -- To Do --
-- Experiment with RPM calculation
 - Account for drag, it isn't even enabled as I was testing something.
-- Calculation of rpm isnt the same for drive wheels and rolling wheels, must calculate rpm correctly based on that. Also F must be the sum of the force of all the wheels.
 - Implement clutch system
-- Play some with sideFriction and make the car able to drift
 - Account not only for longitudal weight transfer but also for lateral
-- Telemetry or what that edy uses, must be really useful!
-- The car going left problem could be because of low side friction or smth
-- Not sure if Fy should be in sideDir or transform.right
 - Take care of wrong front to rear axle length in weight transfer calculation
-- Cleanup All Files
-- Have to find out what is the problem with car going one way, it's evident that Fy for left drive wheel is lower
-
 - Implement multiple wheel axis, like have an axis object, that is managed by Car, and it manages the wheels and suspension, must be done after doing anti roll bars and integrated in the whole paradigm
-- Clean up Car.cs
-- The problem with car going in the last steer direction is because one of the front wheels is oscillating between grounded and not grounded, must be fixed somehow. It
-  sure starts from wrong calculation of something but escalates to a disaster once the oscilation starts.
 - Setup different cam views
 - Make anti roll bars better with new Axle.cs script (:
 - Learn about dds skins to use for the car model
@@ -25,7 +13,6 @@
 -- Problems --
 
 -- On Hold --
-- Probably make a wheel struct that contains things like hit point, radius, width, pos, rot......
 
 
 -- Complete --
@@ -43,3 +30,15 @@ DEFINE GOOD STRUCTURE FOR THE CODE. I need to know what would be in which file!!
 - Clean up Suspension.cs
 - Set is kinematic of wheel rb through start and use it as a holder for mass value and sweepTests
 - THE FUCKING SPRING IS MAKING THE CAR GO FORWARD - must study fr. Must remove sWf/r when done.
+- Experiment with RPM calculation
+- Calculation of rpm isnt the same for drive wheels and rolling wheels, must calculate rpm correctly based on that. Also F must be the sum of the force of all the wheels.
+- Play some with sideFriction and make the car able to drift
+- The car going left problem could be because of low side friction or smth
+- Telemetry or what that edy uses, must be really useful!
+- Not sure if Fy should be in sideDir or transform.right
+- Cleanup All Files
+- Have to find out what is the problem with car going one way, it's evident that Fy for left drive wheel is lower
+- Clean up Car.cs
+- The problem with car going in the last steer direction is because one of the front wheels is oscillating between grounded and not grounded, must be fixed somehow. It
+  sure starts from wrong calculation of something but escalates to a disaster once the oscilation starts.
+- Probably make a wheel struct that contains things like hit point, radius, width, pos, rot......

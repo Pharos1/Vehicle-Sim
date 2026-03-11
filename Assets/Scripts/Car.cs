@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using Unity.Cinemachine;
-using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -39,8 +36,6 @@ public class Car : MonoBehaviour {
 	//Engine Config/State
 	[HideInInspector] public bool engineList = false;
 	[HideInInspector] public AnimationCurve torqueCurve;
-
-	[HideInInspector] public float Tdrive;
 	[HideInInspector] public float rpm;
 
 	//Steering
@@ -78,7 +73,6 @@ public class Car : MonoBehaviour {
 	}
 	void Update() {
 		input();
-		steer();
 	}
 	void FixedUpdate() {
 		//TODO: clear this some more, like everything is inside fixedUpdate, also this has to be redone, things like velinWheelDir are to be changed
@@ -90,33 +84,30 @@ public class Car : MonoBehaviour {
 		Fdrag = -0.5f * dragCoeff * frontalArea * airDensity * (rb.velocity * rb.velocity.magnitude);
 		//rb.AddForceAtPosition(Fdrag, rb.position); //TODO: apply drag to the Center of Pressure aka aerodynamic center
 
-		//Calc RPM TODO: This is somehow wrong, will have to check it out
-		//TODO I think rpm should be calculated by the avg of the powering wheels, currently it is hardcoded to be the front wheels
-		float wheelOmega = ((wheels[0].omega + wheels[1].omega) / 2); //TODO: here we are assuming every wheels has the same radius
-		rpm = wheelOmega * gearRatio * diffRatio * (60 / (2 * Mathf.PI)); /*To Convert from rad/s to rpm/min */
+		//TODO rpm should be calculated by the avg of the powering wheels, currently it is hardcoded to be the front wheels
+		float wheelOmega = ((wheels[0].omega + wheels[1].omega) / 2);
+		rpm = wheelOmega * gearRatio * diffRatio * (60 / (2 * Mathf.PI)); /*To Convert from rad/s to rpm */
 		
 		rpm = Mathf.Abs(rpm);
-		rpm = Mathf.Clamp(rpm, 700, 6000); //If rpm is zero then the car will never start. If too high just doesn't make sense
+		rpm = Mathf.Clamp(rpm, 700, 8000); //If rpm is zero then the car will never start. If too high just doesn't make sense
 
 		//Torque of Engine
-		Tengine = LookupTorqueCurve(rpm);// * Input.GetAxis("Vertical");
+		Tengine = LookupTorqueCurve(rpm);
 
-		//Tdrive = Tengine * gearRatio * diffRatio * transmissionEfficiency;
-		//Tdrive *= Input.GetAxis("Vertical");
-		//TODO: there are errors like here, Tengine is used in Wheel.cs, but it is not divided by the numOfDriveWheels
-		if (numOfDriveWheels != 0) {
-			Tdrive /= numOfDriveWheels; //Torque is divided between wheels
-		}
+		if (numOfDriveWheels != 0)
+			Tengine /= numOfDriveWheels; //Torque is divided between wheels
 		else
-			Tdrive = 0;
+			Tengine = 0;
 
 		Vector3 velocityWorld = rb.velocity;
 		Vector3 velocityLocal = transform.InverseTransformDirection(velocityWorld);
 		V.x = velocityLocal.z;
 		V.y = velocityLocal.x;
 
-		antiRollBars(wheels[0], wheels[1]);
-		antiRollBars(wheels[2], wheels[3]);
+		//antiRollBars(wheels[0], wheels[1]); //Also commented out inside the func
+		//antiRollBars(wheels[2], wheels[3]);
+
+		steer();
 	}
 	private float LookupTorqueCurve(float rpm) { //In Nm
 		return torqueCurve.Evaluate(rpm);
