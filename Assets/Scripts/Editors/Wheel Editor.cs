@@ -28,18 +28,18 @@ public class WheelEditor : Editor {
 		}
 
         collisionList = so.FindProperty("collisionList");
-        collisionList.isExpanded = EditorGUILayout.Foldout(collisionList.isExpanded, "Wheel Collision Config");
-		if (collisionList.isExpanded) {
-            EditorGUILayout.PropertyField(so.FindProperty("layers"), new GUIContent("Raycast Layers"));
-            EditorGUILayout.PropertyField(so.FindProperty("rays"), new GUIContent("Rays per Layer"));
-            EditorGUILayout.PropertyField(so.FindProperty("useBetterCoverage"), new GUIContent("Use Better Coverage"));
-
-			EditorGUILayout.HelpBox("Better Coverage is designed to spread out rays across layers more evenly, giving better coverage of collision. Preferably, use the same number of rays and layers.", MessageType.Info);
-
-			GUI.enabled = false; //Make grayed out read-only field
-            EditorGUILayout.PropertyField(so.FindProperty("isGrounded"), new GUIContent("Is Grounded?"));
-            GUI.enabled = true;
-		}
+        //collisionList.isExpanded = EditorGUILayout.Foldout(collisionList.isExpanded, "Wheel Collision Config");
+		//if (collisionList.isExpanded) {
+        //    //EditorGUILayout.PropertyField(so.FindProperty("layers"), new GUIContent("Raycast Layers"));
+        //    //EditorGUILayout.PropertyField(so.FindProperty("rays"), new GUIContent("Rays per Layer"));
+        //    //EditorGUILayout.PropertyField(so.FindProperty("useBetterCoverage"), new GUIContent("Use Better Coverage"));
+		//
+		//	//EditorGUILayout.HelpBox("Better Coverage is designed to spread out rays across layers more evenly, giving better coverage of collision. Preferably, use the same number of rays and layers.", MessageType.Info);
+		//
+		//	GUI.enabled = false; //Make grayed out read-only field
+        //    //EditorGUILayout.PropertyField(so.FindProperty("isGrounded"), new GUIContent("Is Grounded?"));
+        //    GUI.enabled = true;
+		//}
 
         physicsList = so.FindProperty("physicsList");
         physicsList.isExpanded = EditorGUILayout.Foldout(physicsList.isExpanded, "Wheel Physics Config");
@@ -53,7 +53,7 @@ public class WheelEditor : Editor {
         gizmosList.isExpanded = EditorGUILayout.Foldout(gizmosList.isExpanded, "Gizmos");
 		if (gizmosList.isExpanded) {
             EditorGUILayout.PropertyField(so.FindProperty("debugSize"), new GUIContent("Debug Dimensions"));
-            EditorGUILayout.PropertyField(so.FindProperty("debugRays"), new GUIContent("Debug Collisions"));
+            //EditorGUILayout.PropertyField(so.FindProperty("debugRays"), new GUIContent("Debug Collisions"));
 		}
 
 		so.ApplyModifiedProperties();

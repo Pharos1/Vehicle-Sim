@@ -6,7 +6,7 @@ using UnityEngine;
 public class Suspension : MonoBehaviour {
 	[SerializeField] private Transform car;
 	[SerializeField] public Wheel w;
-
+	[HideInInspector] private Patch patch => w.patch;
 	private Rigidbody rb;
 	private Car cc;
 
@@ -57,7 +57,7 @@ public class Suspension : MonoBehaviour {
 
 		//signedSpeed = Vector3.Dot(w.tractionDir, rb.GetPointVelocity(w.hit.point).normalized) * rb.GetPointVelocity(w.hit.point).magnitude;
 
-		w.collision();
+		patch.updateCollision();
 		suspension();
 		w.calcAndApplyForces();
 	}
@@ -74,11 +74,13 @@ public class Suspension : MonoBehaviour {
 		Gizmos.DrawLine(transform.position, transform.position + transform.up * -springLength);
 	}
 	private void suspension() { //Based on h4tt3n's math https://www.gamedev.net/tutorials/programming/math-and-physics/towards-a-simpler-stiffer-and-more-stable-spring-r3227/
-		if (!w.isGrounded) return;
+		suspensionForce = 0;
+
+		if (!patch.grounded) return;
 
 		//Calculate suspension forces
 		lastLength = springLength;
-		springLength = w.hit.distance - w.centerHitDist; //When having one raycast centerHitDist = radius
+		springLength = patch.hit.distance - w.patch.closestPointDist; //When having one raycast centerHitDist = radius
 
 		//TODO: This I dont use as sometimes the wheel would enter the floor, when it the spring reaches its max compression it would  be more right to treat it as a stick that cant compress, but I cant seemm to figure out how to do such a thing
 		//springLength = Mathf.Clamp(springLength, minLength, maxLength);
@@ -91,12 +93,12 @@ public class Suspension : MonoBehaviour {
 
 		suspensionForce = (springForce + damperForce);
 
-		Vector3 tractionDirLS = transform.InverseTransformDirection(w.tractionDir);
+		Vector3 tractionDirLS = transform.InverseTransformDirection(w.patch.tractionDir);
 		//rb.AddForceAtPosition(w.avgNormal *  Mathf.Max(0, suspensionForce), transform.position);
 		//DD.DisplayVector(tractionDirLS);
 
-		Debug.DrawRay(w.avgPoint, w.avgNormal);
-		float Fg = -suspensionForce * w.tractionDir.y;
+		//Debug.DrawRay(patch.point, patch.normal);
+		float Fg = -suspensionForce * w.patch.tractionDir.y;
 
 		//rb.AddForceAtPosition(w.tractionDir * Fg, transform.position);
 	}

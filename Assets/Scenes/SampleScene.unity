@@ -922,7 +922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6dce15b2c050a44ac372a82b94447a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showTelemetry: 0
+  showTelemetry: 1
   car: {fileID: 6040891564215259098}
   font: {fileID: 12800000, guid: 7d82be801cccf044ba631add602f0d2b, type: 3}
   pointFiltering: 1
@@ -7376,6 +7376,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   s: {fileID: 1783969994}
+  rb: {fileID: 0}
+  cc: {fileID: 0}
+  wModel: {fileID: 0}
+  patch: {fileID: 0}
   steerTime: 8
   radius: 0.325
   width: 0.2921
@@ -7384,12 +7388,6 @@ MonoBehaviour:
   isWheelPowering: 1
   isWheelBraking: 1
   MaxTbraking: 2000
-  collisionList: 0
-  layers: 10
-  rays: 10
-  useBetterCoverage: 1
-  centerHitDist: 0
-  isGrounded: 0
   physicsList: 0
   mass: 10
   Crr: 0.012
@@ -7400,10 +7398,6 @@ MonoBehaviour:
   V: {x: 0, y: 0}
   gizmosList: 0
   debugSize: 0
-  debugRays: 0
-  penetrationAmount: 0.05
-  avgNormal: {x: 0, y: 0, z: 0}
-  avgPoint: {x: 0, y: 0, z: 0}
   omega: 0
   wheelRotationAngle: 0
   L: {x: 1, y: 0.5}
@@ -11940,6 +11934,7 @@ GameObject:
   m_Component:
   - component: {fileID: 241971056532616217}
   - component: {fileID: 1258029355259584663}
+  - component: {fileID: 1258029355259584664}
   m_Layer: 6
   m_Name: WHEEL_FR
   m_TagString: Untagged
@@ -11961,6 +11956,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 6040891564215259098}
   s: {fileID: 1835504112}
+  rb: {fileID: 0}
+  cc: {fileID: 0}
+  wModel: {fileID: 0}
+  patch: {fileID: 0}
   steerTime: 8
   radius: 0.325
   width: 0.2921
@@ -11969,12 +11968,6 @@ MonoBehaviour:
   isWheelPowering: 1
   isWheelBraking: 1
   MaxTbraking: 2000
-  collisionList: 0
-  layers: 15
-  rays: 15
-  useBetterCoverage: 1
-  centerHitDist: 0
-  isGrounded: 1
   physicsList: 0
   mass: 10
   Crr: 0.012
@@ -11985,13 +11978,34 @@ MonoBehaviour:
   V: {x: 0, y: 0}
   gizmosList: 0
   debugSize: 0
-  debugRays: 0
-  penetrationAmount: 0.05
-  avgNormal: {x: 0, y: 0, z: 0}
-  avgPoint: {x: 0, y: 0, z: 0}
   omega: 0
   wheelRotationAngle: 0
   L: {x: 1, y: 0.5}
+--- !u!114 &1258029355259584664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258029355259584662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5270754bc9df84189c050fc9fa0ccc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rays: []
+  point: {x: 0, y: 0, z: 0}
+  normal: {x: 0, y: 0, z: 0}
+  forwardDir: {x: 0, y: 0, z: 0}
+  rightDir: {x: 0, y: 0, z: 0}
+  collisionList: 0
+  layers: 10
+  raysCount: 10
+  useBetterCoverage: 1
+  closestPointDist: 0
+  grounded: 0
+  penetrationAmount: 0.02
+  debugRays: 1
 --- !u!4 &1274346114739108717
 Transform:
   m_ObjectHideFlags: 0
@@ -12895,6 +12909,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   s: {fileID: 1055655722}
+  rb: {fileID: 0}
+  cc: {fileID: 0}
+  wModel: {fileID: 0}
+  patch: {fileID: 0}
   steerTime: 8
   radius: 0.355
   width: 0.3302
@@ -12903,12 +12921,6 @@ MonoBehaviour:
   isWheelPowering: 0
   isWheelBraking: 1
   MaxTbraking: 2000
-  collisionList: 0
-  layers: 10
-  rays: 10
-  useBetterCoverage: 1
-  centerHitDist: 0
-  isGrounded: 0
   physicsList: 0
   mass: 10
   Crr: 0.012
@@ -12919,10 +12931,6 @@ MonoBehaviour:
   V: {x: 0, y: 0}
   gizmosList: 0
   debugSize: 0
-  debugRays: 0
-  penetrationAmount: 0.05
-  avgNormal: {x: 0, y: 0, z: 0}
-  avgPoint: {x: 0, y: 0, z: 0}
   omega: 0
   wheelRotationAngle: 0
   L: {x: 1, y: 0.5}
@@ -21693,6 +21701,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4025296138705923374}
   - component: {fileID: 4025296138705923375}
+  - component: {fileID: 4025296138705923376}
   m_Layer: 6
   m_Name: WHEEL_RL
   m_TagString: Untagged
@@ -30734,6 +30743,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 6040891564215259098}
   s: {fileID: 875899529}
+  rb: {fileID: 0}
+  cc: {fileID: 0}
+  wModel: {fileID: 0}
+  patch: {fileID: 0}
   steerTime: 8
   radius: 0.355
   width: 0.3302
@@ -30742,12 +30755,6 @@ MonoBehaviour:
   isWheelPowering: 0
   isWheelBraking: 1
   MaxTbraking: 2000
-  collisionList: 0
-  layers: 15
-  rays: 15
-  useBetterCoverage: 1
-  centerHitDist: 0
-  isGrounded: 0
   physicsList: 0
   mass: 11.5
   Crr: 0.012
@@ -30758,13 +30765,34 @@ MonoBehaviour:
   V: {x: 0, y: 0}
   gizmosList: 0
   debugSize: 0
-  debugRays: 0
-  penetrationAmount: 0.05
-  avgNormal: {x: 0, y: 0, z: 0}
-  avgPoint: {x: 0, y: 0, z: 0}
   omega: 0
   wheelRotationAngle: 0
   L: {x: 1, y: 0.5}
+--- !u!114 &4025296138705923376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2772041996938504920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5270754bc9df84189c050fc9fa0ccc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rays: []
+  point: {x: 0, y: 0, z: 0}
+  normal: {x: 0, y: 0, z: 0}
+  forwardDir: {x: 0, y: 0, z: 0}
+  rightDir: {x: 0, y: 0, z: 0}
+  collisionList: 0
+  layers: 10
+  raysCount: 10
+  useBetterCoverage: 1
+  closestPointDist: 0
+  grounded: 0
+  penetrationAmount: 0.02
+  debugRays: 1
 --- !u!33 &4025981620782303198
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -32902,6 +32930,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   s: {fileID: 932720233}
+  rb: {fileID: 0}
+  cc: {fileID: 0}
+  wModel: {fileID: 0}
+  patch: {fileID: 0}
   steerTime: 8
   radius: 0.355
   width: 0.3302
@@ -32910,12 +32942,6 @@ MonoBehaviour:
   isWheelPowering: 0
   isWheelBraking: 1
   MaxTbraking: 2000
-  collisionList: 0
-  layers: 10
-  rays: 10
-  useBetterCoverage: 1
-  centerHitDist: 0
-  isGrounded: 0
   physicsList: 0
   mass: 10
   Crr: 0.012
@@ -32926,10 +32952,6 @@ MonoBehaviour:
   V: {x: 0, y: 0}
   gizmosList: 0
   debugSize: 0
-  debugRays: 0
-  penetrationAmount: 0.05
-  avgNormal: {x: 0, y: 0, z: 0}
-  avgPoint: {x: 0, y: 0, z: 0}
   omega: 0
   wheelRotationAngle: 0
   L: {x: 1, y: 0.5}
@@ -37290,6 +37312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5762198181142433564}
   - component: {fileID: 5762198181142433565}
+  - component: {fileID: 5762198181142433566}
   m_Layer: 6
   m_Name: WHEEL_FL
   m_TagString: Untagged
@@ -41351,6 +41374,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   s: {fileID: 1783969994}
+  rb: {fileID: 0}
+  cc: {fileID: 0}
+  wModel: {fileID: 0}
+  patch: {fileID: 0}
   steerTime: 8
   radius: 0.325
   width: 0.2921
@@ -41359,12 +41386,6 @@ MonoBehaviour:
   isWheelPowering: 1
   isWheelBraking: 1
   MaxTbraking: 2000
-  collisionList: 0
-  layers: 10
-  rays: 10
-  useBetterCoverage: 1
-  centerHitDist: 0
-  isGrounded: 0
   physicsList: 0
   mass: 10
   Crr: 0.012
@@ -41375,10 +41396,6 @@ MonoBehaviour:
   V: {x: 0, y: 0}
   gizmosList: 0
   debugSize: 0
-  debugRays: 0
-  penetrationAmount: 0.05
-  avgNormal: {x: 0, y: 0, z: 0}
-  avgPoint: {x: 0, y: 0, z: 0}
   omega: 0
   wheelRotationAngle: 0
   L: {x: 1, y: 0.5}
@@ -41412,6 +41429,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 6040891564215259098}
   s: {fileID: 2070998769}
+  rb: {fileID: 0}
+  cc: {fileID: 0}
+  wModel: {fileID: 0}
+  patch: {fileID: 0}
   steerTime: 8
   radius: 0.325
   width: 0.2921
@@ -41420,12 +41441,6 @@ MonoBehaviour:
   isWheelPowering: 1
   isWheelBraking: 1
   MaxTbraking: 2000
-  collisionList: 0
-  layers: 15
-  rays: 15
-  useBetterCoverage: 1
-  centerHitDist: 0
-  isGrounded: 0
   physicsList: 0
   mass: 10
   Crr: 0.012
@@ -41436,13 +41451,34 @@ MonoBehaviour:
   V: {x: 0, y: 0}
   gizmosList: 0
   debugSize: 0
-  debugRays: 0
-  penetrationAmount: 0.05
-  avgNormal: {x: 0, y: 0, z: 0}
-  avgPoint: {x: 0, y: 0, z: 0}
   omega: 0
   wheelRotationAngle: 0
   L: {x: 1, y: 0.5}
+--- !u!114 &5762198181142433566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5117018490468768674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5270754bc9df84189c050fc9fa0ccc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rays: []
+  point: {x: 0, y: 0, z: 0}
+  normal: {x: 0, y: 0, z: 0}
+  forwardDir: {x: 0, y: 0, z: 0}
+  rightDir: {x: 0, y: 0, z: 0}
+  collisionList: 0
+  layers: 10
+  raysCount: 10
+  useBetterCoverage: 1
+  closestPointDist: 0
+  grounded: 0
+  penetrationAmount: 0.02
+  debugRays: 1
 --- !u!23 &5763247133849997137
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43091,7 +43127,7 @@ Transform:
   m_GameObject: {fileID: 1207888508198177371}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.36, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -49678,6 +49714,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   s: {fileID: 1055655722}
+  rb: {fileID: 0}
+  cc: {fileID: 0}
+  wModel: {fileID: 0}
+  patch: {fileID: 0}
   steerTime: 8
   radius: 0.355
   width: 0.3302
@@ -49686,12 +49726,6 @@ MonoBehaviour:
   isWheelPowering: 0
   isWheelBraking: 1
   MaxTbraking: 2000
-  collisionList: 0
-  layers: 10
-  rays: 10
-  useBetterCoverage: 1
-  centerHitDist: 0
-  isGrounded: 0
   physicsList: 0
   mass: 10
   Crr: 0.012
@@ -49702,10 +49736,6 @@ MonoBehaviour:
   V: {x: 0, y: 0}
   gizmosList: 0
   debugSize: 0
-  debugRays: 0
-  penetrationAmount: 0.05
-  avgNormal: {x: 0, y: 0, z: 0}
-  avgPoint: {x: 0, y: 0, z: 0}
   omega: 0
   wheelRotationAngle: 0
   L: {x: 1, y: 0.5}
@@ -51106,6 +51136,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   s: {fileID: 1100764251}
+  rb: {fileID: 0}
+  cc: {fileID: 0}
+  wModel: {fileID: 0}
+  patch: {fileID: 0}
   steerTime: 8
   radius: 0.325
   width: 0.2921
@@ -51114,12 +51148,6 @@ MonoBehaviour:
   isWheelPowering: 1
   isWheelBraking: 1
   MaxTbraking: 2000
-  collisionList: 0
-  layers: 10
-  rays: 10
-  useBetterCoverage: 1
-  centerHitDist: 0
-  isGrounded: 1
   physicsList: 0
   mass: 10
   Crr: 0.012
@@ -51130,10 +51158,6 @@ MonoBehaviour:
   V: {x: 0, y: 0}
   gizmosList: 0
   debugSize: 0
-  debugRays: 0
-  penetrationAmount: 0.05
-  avgNormal: {x: 0, y: 0, z: 0}
-  avgPoint: {x: 0, y: 0, z: 0}
   omega: 0
   wheelRotationAngle: 0
   L: {x: 1, y: 0.5}
@@ -54048,6 +54072,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   s: {fileID: 932720233}
+  rb: {fileID: 0}
+  cc: {fileID: 0}
+  wModel: {fileID: 0}
+  patch: {fileID: 0}
   steerTime: 8
   radius: 0.355
   width: 0.3302
@@ -54056,12 +54084,6 @@ MonoBehaviour:
   isWheelPowering: 0
   isWheelBraking: 1
   MaxTbraking: 2000
-  collisionList: 0
-  layers: 10
-  rays: 10
-  useBetterCoverage: 1
-  centerHitDist: 0
-  isGrounded: 0
   physicsList: 0
   mass: 10
   Crr: 0.012
@@ -54072,10 +54094,6 @@ MonoBehaviour:
   V: {x: 0, y: 0}
   gizmosList: 0
   debugSize: 0
-  debugRays: 0
-  penetrationAmount: 0.05
-  avgNormal: {x: 0, y: 0, z: 0}
-  avgPoint: {x: 0, y: 0, z: 0}
   omega: 0
   wheelRotationAngle: 0
   L: {x: 1, y: 0.5}
@@ -55873,6 +55891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6600420384056348061}
   - component: {fileID: 8183755998010119369}
+  - component: {fileID: 8183755998010119370}
   m_Layer: 6
   m_Name: WHEEL_RR
   m_TagString: Untagged
@@ -55894,6 +55913,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 6040891564215259098}
   s: {fileID: 527787767}
+  rb: {fileID: 0}
+  cc: {fileID: 0}
+  wModel: {fileID: 0}
+  patch: {fileID: 0}
   steerTime: 8
   radius: 0.355
   width: 0.3302
@@ -55902,12 +55925,6 @@ MonoBehaviour:
   isWheelPowering: 0
   isWheelBraking: 1
   MaxTbraking: 2000
-  collisionList: 0
-  layers: 15
-  rays: 15
-  useBetterCoverage: 1
-  centerHitDist: 0
-  isGrounded: 0
   physicsList: 0
   mass: 11.5
   Crr: 0.012
@@ -55918,13 +55935,34 @@ MonoBehaviour:
   V: {x: 0, y: 0}
   gizmosList: 0
   debugSize: 0
-  debugRays: 0
-  penetrationAmount: 0.05
-  avgNormal: {x: 0, y: 0, z: 0}
-  avgPoint: {x: 0, y: 0, z: 0}
   omega: 0
   wheelRotationAngle: 0
   L: {x: 1, y: 0.5}
+--- !u!114 &8183755998010119370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8183755998010119368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5270754bc9df84189c050fc9fa0ccc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rays: []
+  point: {x: 0, y: 0, z: 0}
+  normal: {x: 0, y: 0, z: 0}
+  forwardDir: {x: 0, y: 0, z: 0}
+  rightDir: {x: 0, y: 0, z: 0}
+  collisionList: 0
+  layers: 10
+  raysCount: 10
+  useBetterCoverage: 1
+  closestPointDist: 0
+  grounded: 0
+  penetrationAmount: 0.02
+  debugRays: 1
 --- !u!4 &8188762737927560494
 Transform:
   m_ObjectHideFlags: 0
@@ -58255,6 +58293,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2858591627778620887}
   s: {fileID: 1100764251}
+  rb: {fileID: 0}
+  cc: {fileID: 0}
+  wModel: {fileID: 0}
+  patch: {fileID: 0}
   steerTime: 8
   radius: 0.325
   width: 0.2921
@@ -58263,12 +58305,6 @@ MonoBehaviour:
   isWheelPowering: 1
   isWheelBraking: 1
   MaxTbraking: 2000
-  collisionList: 0
-  layers: 10
-  rays: 10
-  useBetterCoverage: 1
-  centerHitDist: 0
-  isGrounded: 1
   physicsList: 0
   mass: 10
   Crr: 0.012
@@ -58279,10 +58315,6 @@ MonoBehaviour:
   V: {x: 0, y: 0}
   gizmosList: 0
   debugSize: 0
-  debugRays: 0
-  penetrationAmount: 0.05
-  avgNormal: {x: 0, y: 0, z: 0}
-  avgPoint: {x: 0, y: 0, z: 0}
   omega: 0
   wheelRotationAngle: 0
   L: {x: 1, y: 0.5}
