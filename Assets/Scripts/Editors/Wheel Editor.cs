@@ -46,7 +46,7 @@ public class WheelEditor : Editor {
 		if (physicsList.isExpanded) {
             EditorGUILayout.PropertyField(so.FindProperty("mass"), new GUIContent("Wheel Mass", "Changes weight of body(body.mass = kerbWeight - massOfAllWheels)"));
             EditorGUILayout.PropertyField(so.FindProperty("Crr"), new GUIContent("Rolling Resistance", "Opposite to movement force that is applied because of the elasticity of tyres. Prevents car from rolling freely in low speeds."));
-            EditorGUILayout.PropertyField(so.FindProperty("Cs"), new GUIContent("Side Friction Coeff"));
+            //EditorGUILayout.PropertyField(so.FindProperty("Cs"), new GUIContent("Side Friction Coeff"));
 		}
 
         gizmosList = so.FindProperty("gizmosList");

@@ -84,11 +84,11 @@ public class Telemetry : MonoBehaviour {
 		Vector2 S = Vector2.zero;
 		Vector2 F = wheel.F;
 
-		if (wheel.patch.grounded) {
+		//if (wheel.patch.grounded) {
 			GUILayout.Label($"Wheel{wheel.type}  : {wheelRpm,4:F0} rpm  Fz: {Fz,3:F0}  Sx: {S.x,2:F2}  Sy: {S.y,2:F2}  Fx: {F.x,6:F2}  Fy: {F.y,6:F2}", style);
-		}
-		else {
-			GUILayout.Label($"Wheel{wheel.type}  : {wheelRpm,4:F0} rpm  --", style);
-		}
+		//}
+		//else {
+		//	GUILayout.Label($"Wheel{wheel.type}  : {wheelRpm,4:F0} rpm  --", style);
+		//}
 	}
 }

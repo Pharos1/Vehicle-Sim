@@ -57,7 +57,7 @@ public class Suspension : MonoBehaviour {
 
 		patch.updateCollision();
 		suspension();
-		w.updateDynamics();
+		w.UpdateDynamics();
 	}
 	private void OnDrawGizmos() {
 #if UNITY_EDITOR

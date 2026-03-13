@@ -7391,9 +7391,6 @@ MonoBehaviour:
   physicsList: 0
   mass: 10
   Crr: 0.012
-  Cs: 30
-  tractionDir: {x: 0, y: 0, z: 0}
-  sideDir: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -11971,9 +11968,6 @@ MonoBehaviour:
   physicsList: 0
   mass: 10
   Crr: 0.012
-  Cs: 30
-  tractionDir: {x: 0, y: 0, z: 0}
-  sideDir: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -11996,16 +11990,16 @@ MonoBehaviour:
   rays: []
   point: {x: 0, y: 0, z: 0}
   normal: {x: 0, y: 0, z: 0}
-  forwardDir: {x: 0, y: 0, z: 0}
-  rightDir: {x: 0, y: 0, z: 0}
-  collisionList: 0
-  layers: 10
-  raysCount: 10
-  useBetterCoverage: 1
+  tractionDir: {x: 0, y: 0, z: 0}
+  sideDir: {x: 0, y: 0, z: 0}
   closestPointDist: 0
   grounded: 0
+  debugRays: 0
+  rayDensity: 20
+  activeContactAngle: 90
+  groundConcentration: 1.5
   penetrationAmount: 0.02
-  debugRays: 1
+  useBetterCoverage: 0
 --- !u!4 &1274346114739108717
 Transform:
   m_ObjectHideFlags: 0
@@ -12924,9 +12918,6 @@ MonoBehaviour:
   physicsList: 0
   mass: 10
   Crr: 0.012
-  Cs: 30
-  tractionDir: {x: 0, y: 0, z: 0}
-  sideDir: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -22745,7 +22736,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  Tdrive: 0
   rpm: 0
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -30752,15 +30742,12 @@ MonoBehaviour:
   width: 0.3302
   configList: 0
   type: 2
-  isWheelPowering: 0
+  isWheelPowering: 1
   isWheelBraking: 1
   MaxTbraking: 2000
   physicsList: 0
   mass: 11.5
   Crr: 0.012
-  Cs: 30
-  tractionDir: {x: 0, y: 0, z: 0}
-  sideDir: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -30783,16 +30770,16 @@ MonoBehaviour:
   rays: []
   point: {x: 0, y: 0, z: 0}
   normal: {x: 0, y: 0, z: 0}
-  forwardDir: {x: 0, y: 0, z: 0}
-  rightDir: {x: 0, y: 0, z: 0}
-  collisionList: 0
-  layers: 10
-  raysCount: 10
-  useBetterCoverage: 1
+  tractionDir: {x: 0, y: 0, z: 0}
+  sideDir: {x: 0, y: 0, z: 0}
   closestPointDist: 0
   grounded: 0
+  debugRays: 0
+  rayDensity: 20
+  activeContactAngle: 90
+  groundConcentration: 1.5
   penetrationAmount: 0.02
-  debugRays: 1
+  useBetterCoverage: 0
 --- !u!33 &4025981620782303198
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -32945,9 +32932,6 @@ MonoBehaviour:
   physicsList: 0
   mass: 10
   Crr: 0.012
-  Cs: 30
-  tractionDir: {x: 0, y: 0, z: 0}
-  sideDir: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -41389,9 +41373,6 @@ MonoBehaviour:
   physicsList: 0
   mass: 10
   Crr: 0.012
-  Cs: 30
-  tractionDir: {x: 0, y: 0, z: 0}
-  sideDir: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -41444,9 +41425,6 @@ MonoBehaviour:
   physicsList: 0
   mass: 10
   Crr: 0.012
-  Cs: 30
-  tractionDir: {x: 0, y: 0, z: 0}
-  sideDir: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -41469,16 +41447,16 @@ MonoBehaviour:
   rays: []
   point: {x: 0, y: 0, z: 0}
   normal: {x: 0, y: 0, z: 0}
-  forwardDir: {x: 0, y: 0, z: 0}
-  rightDir: {x: 0, y: 0, z: 0}
-  collisionList: 0
-  layers: 10
-  raysCount: 10
-  useBetterCoverage: 1
+  tractionDir: {x: 0, y: 0, z: 0}
+  sideDir: {x: 0, y: 0, z: 0}
   closestPointDist: 0
   grounded: 0
+  debugRays: 0
+  rayDensity: 20
+  activeContactAngle: 90
+  groundConcentration: 1.5
   penetrationAmount: 0.02
-  debugRays: 1
+  useBetterCoverage: 0
 --- !u!23 &5763247133849997137
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43377,7 +43355,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  Tdrive: 0
   rpm: 0
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -49729,9 +49706,6 @@ MonoBehaviour:
   physicsList: 0
   mass: 10
   Crr: 0.012
-  Cs: 30
-  tractionDir: {x: 0, y: 0, z: 0}
-  sideDir: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -51151,9 +51125,6 @@ MonoBehaviour:
   physicsList: 0
   mass: 10
   Crr: 0.012
-  Cs: 30
-  tractionDir: {x: 0, y: 0, z: 0}
-  sideDir: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -54087,9 +54058,6 @@ MonoBehaviour:
   physicsList: 0
   mass: 10
   Crr: 0.012
-  Cs: 30
-  tractionDir: {x: 0, y: 0, z: 0}
-  sideDir: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -55922,15 +55890,12 @@ MonoBehaviour:
   width: 0.3302
   configList: 0
   type: 3
-  isWheelPowering: 0
+  isWheelPowering: 1
   isWheelBraking: 1
   MaxTbraking: 2000
   physicsList: 0
   mass: 11.5
   Crr: 0.012
-  Cs: 30
-  tractionDir: {x: 0, y: 0, z: 0}
-  sideDir: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -55953,16 +55918,16 @@ MonoBehaviour:
   rays: []
   point: {x: 0, y: 0, z: 0}
   normal: {x: 0, y: 0, z: 0}
-  forwardDir: {x: 0, y: 0, z: 0}
-  rightDir: {x: 0, y: 0, z: 0}
-  collisionList: 0
-  layers: 10
-  raysCount: 10
-  useBetterCoverage: 1
+  tractionDir: {x: 0, y: 0, z: 0}
+  sideDir: {x: 0, y: 0, z: 0}
   closestPointDist: 0
   grounded: 0
+  debugRays: 0
+  rayDensity: 20
+  activeContactAngle: 90
+  groundConcentration: 1.5
   penetrationAmount: 0.02
-  debugRays: 1
+  useBetterCoverage: 0
 --- !u!4 &8188762737927560494
 Transform:
   m_ObjectHideFlags: 0
@@ -58308,9 +58273,6 @@ MonoBehaviour:
   physicsList: 0
   mass: 10
   Crr: 0.012
-  Cs: 30
-  tractionDir: {x: 0, y: 0, z: 0}
-  sideDir: {x: 0, y: 0, z: 0}
   F: {x: 0, y: 0}
   V: {x: 0, y: 0}
   gizmosList: 0
@@ -58649,7 +58611,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  Tdrive: 0
   rpm: 0
   V: {x: 0, y: 0}
   gizmosList: 0

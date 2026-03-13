@@ -94,10 +94,10 @@ public class Car : MonoBehaviour {
 		//Torque of Engine
 		Tengine = LookupTorqueCurve(rpm);
 
-		if (numOfDriveWheels != 0)
-			Tengine /= numOfDriveWheels; //Torque is divided between wheels
-		else
-			Tengine = 0;
+		//if (numOfDriveWheels != 0)
+		//	Tengine /= numOfDriveWheels; //Torque is divided between wheels
+		//else
+		//	Tengine = 0;
 
 		Vector3 velocityWorld = rb.velocity;
 		Vector3 velocityLocal = transform.InverseTransformDirection(velocityWorld);
@@ -142,10 +142,10 @@ public class Car : MonoBehaviour {
 
 		foreach (Wheel w in wheels) {
 			if (w.type == Wheel.WheelType.FL) {
-				w.steer(ackermannAngleLeft);
+				w.Steer(ackermannAngleLeft);
 			}
 			else if (w.type == Wheel.WheelType.FR) {
-				w.steer(ackermannAngleRight);
+				w.Steer(ackermannAngleRight);
 			}
 		}
 	}
